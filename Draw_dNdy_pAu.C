@@ -1,18 +1,20 @@
-#include "/phenix/u/shlim/Style.h"
+#include "Style.h"
 
 void Draw_dNdy_pAu(){
+
+	SetStyle();
 
 	const int ncent = 7;
 	const int cent_per_min[ncent] = {0, 5, 10, 0, 20, 40, 60};
 	const int cent_per_max[ncent] = {5, 10, 20, 20, 40, 60, 84};
 
-	const int nColor[ncent] = {1, 2, 4, 6, 8, 1, 2};
+	const int nColor[ncent] = {1, 2, 4, 6, kGreen+2, 1, 2};
 
 	const int narm = 2;
 	const int nybin = 4;
 
 	double xx[narm][nybin] = {{-1.325, -1.575, -1.825, -2.075}, {1.325, 1.575, 1.825, 2.075}};
-	double xx_err[narm][nybin] = {{0.1, 0.1, 0.1, 0.1}, {0.1, 0.1, 0.1, 0.1}};
+	double xx_err[narm][nybin] = {{0.125, 0.125, 0.125, 0.125}, {0.125, 0.125, 0.125, 0.125}};
 
 	double xx_int[narm] = {-1.7, 1.7};
 	double xx_int_err[narm] = {0.1, 0.1};
@@ -100,7 +102,7 @@ void Draw_dNdy_pAu(){
 	const double sys_pol_pp[narm][4] = {{0.138, 0.128, 0.116, 0.101}, {0.129, 0.1333, 0.116, 0.104}};
 	const double sys_pol_pp_int[narm] = {0.12, 0.12};
 
-	TFile *infile_pp = new TFile("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/10.runQA/00.eventhist/Run15pp200_eventhist_for_dimuon_20180402.root","read");
+	TFile *infile_pp = new TFile("Run15pp200_eventhist_for_dimuon_20180402.root","read");
 
 	double NMB_pp[narm];
 	TH1F *hBBCZ_pp[narm];
@@ -110,7 +112,7 @@ void Draw_dNdy_pAu(){
 	}
 	infile_pp->Close();
 
-	TFile *infile1_pp = new TFile("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/14.acc_by_eff/01.Inclusive_Jpsi/eff_files/Run15pp200_acceff_InclusiveJpsi_C.root","read");
+	TFile *infile1_pp = new TFile("eff_files/Run15pp200_acceff_InclusiveJpsi_C.root","read");
 
 	TH1F *heff_y_pp[narm];
 	TH1F *heff_y_int_pp[narm];
@@ -129,7 +131,7 @@ void Draw_dNdy_pAu(){
 	}
 	infile1_pp->Close();
 
-	TFile *infile2_pp = new TFile("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/14.acc_by_eff/01.Inclusive_Jpsi/eff_files/Run15pp200_C_trigeff_MUID2D_output.root","read");
+	TFile *infile2_pp = new TFile("eff_files/Run15pp200_C_trigeff_MUID2D_output.root","read");
 
 	TH1F *htrigeff_pp[narm];
 	TH1F *htrigeff_pp_int[narm];
@@ -186,8 +188,7 @@ void Draw_dNdy_pAu(){
 
 		Y_pp15_int[iarm] = (Njpsi_pp15_int[iarm]/eff_pp_trk) / (NMB_pp[iarm]/eff_pp_bbc) / 1.0 / eff_y_int_pp[iarm] / trigeff_y_int_pp[iarm];
 		Y_pp15_int_err[iarm] = (Njpsi_pp15_int_err[iarm]/eff_pp_trk) / (NMB_pp[iarm]/eff_pp_bbc) / 1.0 / eff_y_int_pp[iarm] / trigeff_y_int_pp[iarm];
-		Y_pp15_int_syserr[iarm] = sys_fit_pp[iarm]*sys_fit_pp[iarm];
-		Y_pp15_int_syserr[iarm] += sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm];
+		Y_pp15_int_syserr[iarm] = sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm];
 		Y_pp15_int_syserr[iarm] += sys_var_pp[iarm]*sys_var_pp[iarm];
 		Y_pp15_int_syserr[iarm] += sys_acceff_pp[iarm]*sys_acceff_pp[iarm];
 		Y_pp15_int_syserr[iarm] += sys_trigeff_y_int_pp[iarm]*sys_trigeff_y_int_pp[iarm];
@@ -304,7 +305,7 @@ void Draw_dNdy_pAu(){
 	//return;
 
 
-	TFile *infile = new TFile("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/10.runQA/00.eventhist/Run15pAu200_eventhist_for_dimuon_20190727.root","read");
+	TFile *infile = new TFile("Run15pAu200_eventhist_for_dimuon_20190727.root","read");
 
 	TH1D *hBBCZ[ncent][narm];
 	double NMB[ncent][narm];
@@ -331,7 +332,7 @@ void Draw_dNdy_pAu(){
 
 	for (int icent=0; icent<ncent; icent++){
 
-		TFile *infile1 = new TFile(Form("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/14.acc_by_eff/01.Inclusive_Jpsi/eff_files/Run15pAu200_CENT%02d%02d_acceff_InclusiveJpsi_C.root",cent_per_min[icent],cent_per_max[icent]),"read");
+		TFile *infile1 = new TFile(Form("eff_files/Run15pAu200_CENT%02d%02d_acceff_InclusiveJpsi_C.root",cent_per_min[icent],cent_per_max[icent]),"read");
 
 		for (int iarm=0; iarm<narm; iarm++){
 			heff_y[iarm] = (TH1F*)infile1->Get(Form("heff_yy_w_dAu_set1_arm%d",iarm));
@@ -361,7 +362,7 @@ void Draw_dNdy_pAu(){
 
 	for (int icent=0; icent<ncent; icent++){
 
-		TFile *infile2 = new TFile(Form("/gpfs/mnt/gpfs02/phenix/hhj/hhj1/shlim/work/15.run15/14.acc_by_eff/01.Inclusive_Jpsi/eff_files/Run15pAu200_CENT%02d%02d_C_trigeff_MUID2D_output.root",cent_per_min[icent],cent_per_max[icent]),"read");
+		TFile *infile2 = new TFile(Form("eff_files/Run15pAu200_CENT%02d%02d_C_trigeff_MUID2D_output.root",cent_per_min[icent],cent_per_max[icent]),"read");
 
 		for (int iarm=0; iarm<narm; iarm++){
 
@@ -432,8 +433,7 @@ void Draw_dNdy_pAu(){
 
 				Y[icent][iarm][iy] = Njpsi[icent][iarm][iy] / NMB[icent][iarm] / 0.25 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y[icent][iarm][iy] / trigeff_y[icent][iarm][iy];
 				Y_err[icent][iarm][iy] = Njpsi_err[icent][iarm][iy] / NMB[icent][iarm] / 0.25 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y[icent][iarm][iy] / trigeff_y[icent][iarm][iy];
-				Y_syserr[icent][iarm][iy] = sys_fit[iarm]*sys_fit[iarm];
-				Y_syserr[icent][iarm][iy] += sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm];
+				Y_syserr[icent][iarm][iy] = sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm];
 				Y_syserr[icent][iarm][iy] += sys_var[iarm]*sys_var[iarm];
 				Y_syserr[icent][iarm][iy] += sys_acceff[iarm]*sys_acceff[iarm];
 				Y_syserr[icent][iarm][iy] += sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy];
@@ -444,19 +444,18 @@ void Draw_dNdy_pAu(){
 				float err1 = Y_err[icent][iarm][iy]/Y[icent][iarm][iy];
 
 				//TypeA err
-				rpA_err[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1 + sys_fit_pp[iarm]*sys_fit_pp[iarm] + sys_fit[iarm]*sys_fit[iarm]); 
+				rpA_err[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1 + sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm] + sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm]); 
 
 				//TypeB err
-				err0 = sqrt(sys_var_pp[iarm]*sys_var_pp[iarm] + sys_acceff_pp[iarm]*sys_acceff_pp[iarm] + sys_trigeff_y_pp[iarm][iy]*sys_trigeff_y_pp[iarm][iy] + sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm]);
-				err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy] + sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm]);
+				err0 = sqrt(sys_var_pp[iarm]*sys_var_pp[iarm] + sys_acceff_pp[iarm]*sys_acceff_pp[iarm] + sys_trigeff_y_pp[iarm][iy]*sys_trigeff_y_pp[iarm][iy]);
+				err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy]);
 				rpA_syserr[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1);
 
 			}//iy
 
 			Y_int[icent][iarm] = Njpsi_cent[icent][iarm] / NMB[icent][iarm] / 1.0 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y_int[icent][iarm] / trigeff_y_int[icent][iarm];
 			Y_int_err[icent][iarm] = Njpsi_cent_err[icent][iarm] / NMB[icent][iarm] / 1.0 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y_int[icent][iarm] / trigeff_y_int[icent][iarm];
-			Y_int_syserr[icent][iarm] = sys_fit[iarm]*sys_fit[iarm];
-			Y_int_syserr[icent][iarm] += sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm];
+			Y_int_syserr[icent][iarm] = sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm];
 			Y_int_syserr[icent][iarm] += sys_var[iarm]*sys_var[iarm];
 			Y_int_syserr[icent][iarm] += sys_acceff[iarm]*sys_acceff[iarm];
 			Y_int_syserr[icent][iarm] += sys_trigeff_y_int[icent][iarm]*sys_trigeff_y_int[icent][iarm];
@@ -467,11 +466,11 @@ void Draw_dNdy_pAu(){
 			float err1 = Y_int_err[icent][iarm]/Y_int[icent][iarm];
 
 			//TypeA err
-			rpA_int_err[icent][iarm] = rpA_int[icent][iarm]*sqrt(err0*err0 + err1*err1 + sys_fit_pp[iarm]*sys_fit_pp[iarm] + sys_fit[iarm]*sys_fit[iarm]); 
+			rpA_int_err[icent][iarm] = rpA_int[icent][iarm]*sqrt(err0*err0 + err1*err1 + sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm] + sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm]); 
 
 			//TypeB err
-			err0 = sqrt(sys_var_pp[iarm]*sys_var_pp[iarm] + sys_acceff_pp[iarm]*sys_acceff_pp[iarm] + sys_trigeff_y_int_pp[iarm]*sys_trigeff_y_int_pp[iarm] + sys_corrbkg_pp[iarm]*sys_corrbkg_pp[iarm]);
-			err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y_int[icent][iarm]*sys_trigeff_y_int[icent][iarm] + sys_corrbkg[icent][iarm]*sys_corrbkg[icent][iarm]);
+			err0 = sqrt(sys_var_pp[iarm]*sys_var_pp[iarm] + sys_acceff_pp[iarm]*sys_acceff_pp[iarm] + sys_trigeff_y_int_pp[iarm]*sys_trigeff_y_int_pp[iarm]);
+			err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y_int[icent][iarm]*sys_trigeff_y_int[icent][iarm]);
 			rpA_int_syserr[icent][iarm] = rpA_int[icent][iarm]*sqrt(err0*err0 + err1*err1);
 
 			if ( icent!=3 ){ 
@@ -546,24 +545,11 @@ void Draw_dNdy_pAu(){
 		leg->SetFillStyle(0);
 		leg->SetBorderSize(0);
 		le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","");
-		le->SetTextSize(0.055);
 		le = leg->AddEntry("","J/#psi#rightarrow#mu#mu","");
-		le->SetTextSize(0.055);
 		leg->Draw();
 	}
 
 	//return;
-
-	{
-		TLegend *leg = new TLegend(0.65,0.5,0.9,0.90);
-		leg->SetFillStyle(0);
-		leg->SetBorderSize(0);
-		for (int icent=0; icent<ncent; icent++){
-			le = leg->AddEntry(gR[icent][0],Form("%d-%d%c",cent_per_min[icent],cent_per_max[icent],'%'),"p");
-			le->SetTextSize(0.055);
-		}
-		leg->Draw();
-	}
 
 	TCanvas *c12 = new TCanvas("c12","c12",1.3*4*250,2*250);
 	c12->Divide(4,2);
@@ -571,50 +557,60 @@ void Draw_dNdy_pAu(){
 	for (int icent=0; icent<ncent; icent++){
 		c12->cd(icent+1);
 		SetPadStyle();
-		gPad->SetRightMargin(0.02);
-		gPad->SetLeftMargin(0.15);
+		gPad->SetRightMargin(0.015);
+		gPad->SetLeftMargin(0.17);
+		gPad->SetBottomMargin(0.16);
 		htmp = (TH1F*)gPad->DrawFrame(-3,0,3,2.0);
-		SetHistoStyle("y","R_{AB}","",0.08,0.07);
-		htmp->GetYaxis()->SetTitleOffset(0.9);
-		htmp->GetXaxis()->SetTitleOffset(0.85);
+		SetHistoStyle("y","R_{AB}","",22,18);
+		htmp->GetYaxis()->SetTitleOffset(1.7);
+		htmp->GetXaxis()->SetTitleOffset(1.6);
+
+		{
+			TLegend *leg = new TLegend(0.20,0.65,0.9,0.90);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","J/#psi#rightarrow#mu#mu","h");
+			le = leg->AddEntry("",Form("%d-%d%c Centrality",cent_per_min[icent],cent_per_max[icent],'%'),"h");
+			leg->Draw();
+
+			TLine *line = new TLine(-3, 1, 3, 1);
+			line->SetLineStyle(2);
+			line->Draw();
+
+			float global_sys = sqrt(Ncoll_cent_sys[icent]*Ncoll_cent_sys[icent] + BiasF_cent_sys[icent]*BiasF_cent_sys[icent] + 0.101*0.101);
+			TBox *box = new TBox(2.8,1-global_sys,3.0,1+global_sys);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(nColor[icent],0.5);
+			box->Draw();
+		}
 
 		for (int iarm=0; iarm<narm; iarm++){
 			gR_sys[icent][iarm]->Draw("2");
 			gR[icent][iarm]->Draw("p");
 		}
-
-		{
-			TLegend *leg = new TLegend(0.40,0.70,0.9,0.90);
-			leg->SetFillStyle(0);
-			leg->SetBorderSize(0);
-			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","");
-			le->SetTextSize(0.07);
-			le = leg->AddEntry("","J/#psi#rightarrow#mu#mu","");
-			le->SetTextSize(0.07);
-			le = leg->AddEntry("",Form("%d-%d%c Centrality",cent_per_min[icent],cent_per_max[icent],'%'),"");
-			le->SetTextSize(0.07);
-			leg->Draw();
-		}
 	}
 
-	TCanvas *c13 = new TCanvas("c13","c13",1.4*400,400);
+	//return;
+
+	TCanvas *c13 = new TCanvas("c13","c13",1.3*400,400);
 	SetPadStyle();
 	gPad->SetRightMargin(0.03);
-	gPad->SetLeftMargin(0.15);
-	gPad->SetBottomMargin(0.18);
+	gPad->SetLeftMargin(0.14);
+	gPad->SetBottomMargin(0.16);
 	htmp = (TH1F*)gPad->DrawFrame(0,0,15,2.0);
-	SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",0.08,0.07);
-	htmp->GetYaxis()->SetTitleOffset(0.9);
-	htmp->GetXaxis()->SetTitleOffset(0.95);
+	SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",24,20);
+	htmp->GetYaxis()->SetTitleOffset(1.0);
+	htmp->GetXaxis()->SetTitleOffset(1.0);
 
 	{
-		TLegend *leg = new TLegend(0.40,0.75,0.9,0.90);
+		TLegend *leg = new TLegend(0.40,0.65,0.9,0.90);
 		leg->SetFillStyle(0);
 		leg->SetBorderSize(0);
 		le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","");
-		le->SetTextSize(0.07);
 		le = leg->AddEntry("","J/#psi#rightarrow#mu#mu","");
-		le->SetTextSize(0.07);
+		le = leg->AddEntry(gR_int[0],"-2.2<y<-1.2","P");
+		le = leg->AddEntry(gR_int[1],"1.2<y<2.2","P");
 		leg->Draw();
 
 		TLine *line = new TLine(0, 1, 15, 1);

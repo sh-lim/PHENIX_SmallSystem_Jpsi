@@ -11,6 +11,8 @@ void SetStyle(){
 	gStyle->SetOptStat(0);
 	gStyle->SetPadTickX(1);
 	gStyle->SetPadTickY(1);
+	gStyle->SetLegendFont(63);
+	gStyle->SetLegendTextSize(20);
 
 }
 
@@ -30,33 +32,25 @@ void SetPadStyle(bool log = false){
 	return;
 }
 
-void SetHistoStyle(std::string xtitle="", std::string ytitle="", std::string ztitle="",float size_title=0.06, float size_label=0.05){
+void SetHistoStyle(std::string xtitle="", std::string ytitle="", std::string ztitle="",float size_title=22, float size_label=18){
 	htmp->SetTitleFont(62);
-	htmp->GetYaxis()->SetLabelFont(62);
-	htmp->GetYaxis()->SetTitleFont(62);
+	htmp->GetYaxis()->SetLabelFont(63);
+	htmp->GetYaxis()->SetTitleFont(63);
 	htmp->GetYaxis()->SetTitleOffset(1.25);
-	//htmp->GetYaxis()->SetLabelFont(102);
-	//htmp->GetYaxis()->SetTitleFont(102);
 	htmp->GetYaxis()->SetLabelSize(size_label);
 	htmp->GetYaxis()->SetTitleSize(size_title);
 	htmp->GetYaxis()->SetTitle(ytitle.c_str());
 	htmp->GetYaxis()->SetNdivisions(9,5,0);
-	htmp->GetXaxis()->SetLabelFont(62);
-	htmp->GetXaxis()->SetTitleFont(62);
+	htmp->GetXaxis()->SetLabelFont(63);
+	htmp->GetXaxis()->SetTitleFont(63);
 	htmp->GetXaxis()->SetTitleOffset(1.0);
-	//htmp->GetXaxis()->SetLabelFont(102);
-	//htmp->GetXaxis()->SetTitleFont(102);
 	htmp->GetXaxis()->SetLabelSize(size_label);
 	htmp->GetXaxis()->SetTitleSize(size_title);
 	htmp->GetXaxis()->SetTitle(xtitle.c_str());
-	//htmp->GetXaxis()->SetNdivisions(505);
 	htmp->GetXaxis()->SetNdivisions(9,2,0);
-
-	htmp->GetZaxis()->SetLabelFont(62);
-	htmp->GetZaxis()->SetTitleFont(62);
+	htmp->GetZaxis()->SetLabelFont(63);
+	htmp->GetZaxis()->SetTitleFont(63);
 	htmp->GetZaxis()->SetTitleOffset(1.0);
-	//htmp->GetZaxis()->SetLabelSize(20);
-	//htmp->GetZaxis()->SetTitleSize(22);
 	htmp->GetZaxis()->SetLabelSize(size_label);
 	htmp->GetZaxis()->SetTitleSize(size_title);
 	htmp->GetZaxis()->SetTitle(ztitle.c_str());
