@@ -2,6 +2,8 @@
 
 void Draw_dNdy_pAu(){
 
+	const bool bWRITE = false;
+
 	SetStyle();
 
 	const int ncent = 7;
@@ -102,7 +104,7 @@ void Draw_dNdy_pAu(){
 	const double sys_pol_pp[narm][4] = {{0.138, 0.128, 0.116, 0.101}, {0.129, 0.1333, 0.116, 0.104}};
 	const double sys_pol_pp_int[narm] = {0.12, 0.12};
 
-	TFile *infile_pp = new TFile("Run15pp200_eventhist_for_dimuon_20180402.root","read");
+	TFile *infile_pp = new TFile("event_files/Run15pp200_eventhist_for_dimuon_20180402.root","read");
 
 	double NMB_pp[narm];
 	TH1F *hBBCZ_pp[narm];
@@ -305,7 +307,7 @@ void Draw_dNdy_pAu(){
 	//return;
 
 
-	TFile *infile = new TFile("Run15pAu200_eventhist_for_dimuon_20190727.root","read");
+	TFile *infile = new TFile("event_files/Run15pAu200_eventhist_for_dimuon_20190727.root","read");
 
 	TH1D *hBBCZ[ncent][narm];
 	double NMB[ncent][narm];
@@ -598,7 +600,7 @@ void Draw_dNdy_pAu(){
 	gPad->SetRightMargin(0.03);
 	gPad->SetLeftMargin(0.14);
 	gPad->SetBottomMargin(0.16);
-	htmp = (TH1F*)gPad->DrawFrame(0,0,15,2.0);
+	htmp = (TH1F*)gPad->DrawFrame(0,0,25,2.0);
 	SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",24,20);
 	htmp->GetYaxis()->SetTitleOffset(1.0);
 	htmp->GetXaxis()->SetTitleOffset(1.0);
@@ -613,11 +615,11 @@ void Draw_dNdy_pAu(){
 		le = leg->AddEntry(gR_int[1],"1.2<y<2.2","P");
 		leg->Draw();
 
-		TLine *line = new TLine(0, 1, 15, 1);
+		TLine *line = new TLine(0, 1, 25, 1);
 		line->SetLineStyle(2);
 		line->Draw();
 
-		TBox *box = new TBox(14.5,1-0.101,15,1+0.101);
+		TBox *box = new TBox(25*0.97,1-0.101,25,1+0.101);
 		box->SetFillStyle(1000);
 		box->SetFillColorAlpha(1,0.5);
 		box->Draw();
@@ -628,6 +630,23 @@ void Draw_dNdy_pAu(){
 		gR_int[iarm]->Draw("p");
 
 	}
+
+	if ( bWRITE ){
+		TFile *outfile = new TFile("RAB_y_Ncoll_pAu200.root","recreate");
+
+		for (int iarm=0; iarm<narm; iarm++){
+			gR_int_sys[iarm]->Write(Form("RAB_Ncoll_syserr_arm%d",iarm));
+			gR_int[iarm]->Write(Form("RAB_Ncoll_staerr_arm%d",iarm));
+		}//iarm
+
+		for (int icent=0; icent<ncent; icent++){
+			for (int iarm=0; iarm<narm; iarm++){
+				gR_sys[icent][iarm]->Write(Form("RAB_y_syserr_cent%d_arm%d",icent,iarm));
+				gR[icent][iarm]->Write(Form("RAB_y_staerr_cent%d_arm%d",icent,iarm));
+			}
+		}//icent
+
+	}//bWRITE
 
 
 }

@@ -2,6 +2,8 @@
 
 void Draw_dNdy_HeAu(){
 
+	const bool bWRITE = false;
+
 	SetStyle();
 
 	const int ncent = 3;
@@ -649,5 +651,22 @@ void Draw_dNdy_HeAu(){
 		gR_int[iarm]->Draw("p");
 
 	}
+
+	if ( bWRITE ){
+		TFile *outfile = new TFile("RAB_y_Ncoll_HeAu200.root","recreate");
+
+		for (int iarm=0; iarm<narm; iarm++){
+			gR_int_sys[iarm]->Write(Form("RAB_Ncoll_syserr_arm%d",iarm));
+			gR_int[iarm]->Write(Form("RAB_Ncoll_staerr_arm%d",iarm));
+		}//iarm
+
+		for (int icent=0; icent<ncent; icent++){
+			for (int iarm=0; iarm<narm; iarm++){
+				gR_sys[icent][iarm]->Write(Form("RAB_y_syserr_cent%d_arm%d",icent,iarm));
+				gR[icent][iarm]->Write(Form("RAB_y_staerr_cent%d_arm%d",icent,iarm));
+			}
+		}//icent
+
+	}//bWRITE
 
 }
