@@ -4,6 +4,7 @@ void Draw_RAB_pT_all()
 {
 
 	SetStyle();
+	gStyle->SetLegendTextSize(16);
 
   char name1[500];
   char name2[500];
@@ -196,22 +197,24 @@ void Draw_RAB_pT_all()
 		}//iarm
 	}//icent
 
-	TCanvas *c00 = new TCanvas("c00","c00",1.3*4*250,2*250);
-	c00->Divide(4,2);
+	TCanvas *c00 = new TCanvas("c00","c00",1.3*3*300,2*300);
+	c00->Divide(3,2);
 
+	int count = 0;
 	for (int icent=0; icent<ncentbin_pAu; icent++){
-		c00->cd(icent+1);
+		if ( icent==3 ) continue;
+		c00->cd(count+1);
 		SetPadStyle();
 		gPad->SetRightMargin(0.00);
-		gPad->SetLeftMargin(0.17);
-		gPad->SetBottomMargin(0.20);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,9.8,2.5);
+		gPad->SetLeftMargin(0.14);
+		gPad->SetBottomMargin(0.16);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,7.5,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",20,18);
 		htmp->GetYaxis()->SetTitleOffset(2.0);
 		htmp->GetXaxis()->SetTitleOffset(2.2);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","h");
@@ -243,25 +246,26 @@ void Draw_RAB_pT_all()
 			gr_pAu_sys[icent][iarm]->Draw("2");
 			gr_pAu[icent][iarm]->Draw("p");
 		}
+		count++;
 	}
 
 
-	TCanvas *c01 = new TCanvas("c01","c01",1.3*4*250,1*250);
-	c01->Divide(4,1);
+	TCanvas *c01 = new TCanvas("c01","c01",1.3*3*300,1*300);
+	c01->Divide(3,1);
 
 	for (int icent=0; icent<ncentbin_pAl; icent++){
 		c01->cd(icent+1);
 		SetPadStyle();
 		gPad->SetRightMargin(0.00);
-		gPad->SetLeftMargin(0.17);
-		gPad->SetBottomMargin(0.20);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,9.8,2.5);
+		gPad->SetLeftMargin(0.14);
+		gPad->SetBottomMargin(0.16);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,4.8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",20,18);
 		htmp->GetYaxis()->SetTitleOffset(0.9);
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","p+Al #sqrt{s_{NN}}=200 GeV","h");
@@ -281,7 +285,7 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.25,0.95,0.40);
+			TLegend *leg = new TLegend(0.65,0.78,0.95,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			leg->AddEntry(gr_pAl[icent][0],"-2.2<y<-1.2","p");
@@ -295,22 +299,22 @@ void Draw_RAB_pT_all()
 		}
 	}
 
-	TCanvas *c02 = new TCanvas("c02","c02",1.3*4*250,1*250);
-	c02->Divide(4,1);
+	TCanvas *c02 = new TCanvas("c02","c02",1.3*3*300,1*300);
+	c02->Divide(3,1);
 
 	for (int icent=0; icent<ncentbin_HeAu; icent++){
 		c02->cd(icent+1);
 		SetPadStyle();
 		gPad->SetRightMargin(0.00);
-		gPad->SetLeftMargin(0.17);
-		gPad->SetBottomMargin(0.20);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,9.8,2.5);
+		gPad->SetLeftMargin(0.14);
+		gPad->SetBottomMargin(0.16);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,4.8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",20,18);
 		htmp->GetYaxis()->SetTitleOffset(0.9);
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
@@ -330,7 +334,7 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.25,0.95,0.40);
+			TLegend *leg = new TLegend(0.65,0.78,0.95,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			leg->AddEntry(gr_HeAu[icent][0],"-2.2<y<-1.2","p");
