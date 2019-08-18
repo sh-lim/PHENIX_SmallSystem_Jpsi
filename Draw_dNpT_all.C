@@ -339,7 +339,7 @@ void Draw_dNpT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.77,0.9,0.92);
+			TLegend *leg = new TLegend(0.63,0.77,0.9,0.92);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
