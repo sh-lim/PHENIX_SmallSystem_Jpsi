@@ -514,7 +514,7 @@ void Draw_dNdy_pAu(){
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.14);
 		gPad->SetBottomMargin(0.14);
-		htmp = (TH1F*)gPad->DrawFrame(-3,0,3,1.5e-6);
+		htmp = (TH1F*)gPad->DrawFrame(-3,0,3,2.0e-6);
 		SetHistoStyle("y","B_{ll}dN/dy","",22,18);
 		htmp->GetYaxis()->SetTitleOffset(1.7);
 		htmp->GetXaxis()->SetTitleOffset(1.6);
