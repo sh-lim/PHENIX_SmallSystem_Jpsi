@@ -3,7 +3,7 @@
 void Draw_dNdy_HeAu(){
 
 	const bool bWRITE = false;
-	const bool bSAVE = true;
+	const bool bSAVE = false;
 
 	SetStyle();
 
@@ -665,10 +665,10 @@ void Draw_dNdy_HeAu(){
 
 	if ( bSAVE ){
 		c10->cd();
-		c10->SaveAs("fig_dNdy_HeAu.pdf");
+		c10->SaveAs("pdf/fig_dNdy_HeAu.pdf");
 
 		c12->cd();
-		c12->SaveAs("fig_RAB_y_HeAu.pdf");
+		c12->SaveAs("pdf/fig_RAB_y_HeAu.pdf");
 	}
 
 }

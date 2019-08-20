@@ -3,6 +3,8 @@
 void Draw_RAB_pT_all()
 {
 
+	const bool bSAVE = true;
+
 	SetStyle();
 	gStyle->SetLegendTextSize(16);
 
@@ -346,6 +348,17 @@ void Draw_RAB_pT_all()
 			gr_HeAu_sys[icent][iarm]->Draw("2");
 			gr_HeAu[icent][iarm]->Draw("p");
 		}
+	}
+
+	if ( bSAVE ){
+		c00->cd();
+		c00->SaveAs("pdf/fig_RAB_pT_pAu.pdf");
+
+		c01->cd();
+		c01->SaveAs("pdf/fig_RAB_pT_pAl.pdf");
+
+		c02->cd();
+		c02->SaveAs("pdf/fig_RAB_pT_HeAu.pdf");
 	}
 
 }
