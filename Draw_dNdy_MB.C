@@ -1157,6 +1157,14 @@ void Draw_dNdy_MB(){
 	sysbox_y_HeAu->SetFillColorAlpha(kMagenta+1,0.5);
 	sysbox_y_HeAu->Draw();
 
+	if ( bSAVE ){
+		c1->cd();
+		c1->SaveAs("pdf/fig_RAB_y_MB.pdf");
+
+		c10->cd();
+		c10->SaveAs("pdf/fig_dNdy_MB.pdf");
+	}
+
 	return;
 
 
