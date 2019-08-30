@@ -2,7 +2,7 @@
 
 void Draw_RAB_Ncoll(){
 
-	const bool bSAVE = false;
+	const bool bSAVE = true;
 
 	SetStyle();
 
@@ -25,11 +25,11 @@ void Draw_RAB_Ncoll(){
 		hRAB_Ncoll_pAu_sys[iarm] = (TH1D*)infile_pAu->Get(Form("RAB_Ncoll_syserr_arm%d",iarm));
 		hRAB_Ncoll_pAu[iarm] = (TH1D*)infile_pAu->Get(Form("RAB_Ncoll_staerr_arm%d",iarm));
 		hRAB_Ncoll_pAu_sys[iarm]->SetMarkerStyle(20);
-		hRAB_Ncoll_pAu_sys[iarm]->SetMarkerColor(1);
-		hRAB_Ncoll_pAu_sys[iarm]->SetLineColor(1);
+		hRAB_Ncoll_pAu_sys[iarm]->SetMarkerColor(kGreen+2);
+		hRAB_Ncoll_pAu_sys[iarm]->SetLineColor(kGreen+2);
 		hRAB_Ncoll_pAu[iarm]->SetMarkerStyle(20);
-		hRAB_Ncoll_pAu[iarm]->SetMarkerColor(1);
-		hRAB_Ncoll_pAu[iarm]->SetLineColor(1);
+		hRAB_Ncoll_pAu[iarm]->SetMarkerColor(kGreen+2);
+		hRAB_Ncoll_pAu[iarm]->SetLineColor(kGreen+2);
 
 		hRAB_Ncoll_pAl_sys[iarm] = (TH1D*)infile_pAl->Get(Form("RAB_Ncoll_syserr_arm%d",iarm));
 		hRAB_Ncoll_pAl[iarm] = (TH1D*)infile_pAl->Get(Form("RAB_Ncoll_staerr_arm%d",iarm));
@@ -44,35 +44,39 @@ void Draw_RAB_Ncoll(){
 		hRAB_Ncoll_HeAu[iarm] = (TH1D*)infile_HeAu->Get(Form("RAB_Ncoll_staerr_arm%d",iarm));
 		hRAB_Ncoll_HeAu_sys[iarm]->SetMarkerStyle(20);
 		hRAB_Ncoll_HeAu_sys[iarm]->SetMarkerColor(4);
-		hRAB_Ncoll_HeAu_sys[iarm]->SetLineColor(4);
+		hRAB_Ncoll_HeAu_sys[iarm]->SetLineColor(6);
 		hRAB_Ncoll_HeAu[iarm]->SetMarkerStyle(20);
-		hRAB_Ncoll_HeAu[iarm]->SetMarkerColor(4);
-		hRAB_Ncoll_HeAu[iarm]->SetLineColor(4);
+		hRAB_Ncoll_HeAu[iarm]->SetMarkerColor(6);
+		hRAB_Ncoll_HeAu[iarm]->SetLineColor(6);
 
 	}//iarm
 
 	TCanvas *c13[narm];
 	for (int iarm=0; iarm<narm; iarm++){
-		c13[iarm] = new TCanvas(Form("c13_arm%d",iarm),Form("c13_arm%d",iarm),1.3*1*400,400);
+		c13[iarm] = new TCanvas(Form("c13_arm%d",iarm),Form("c13_arm%d",iarm),1.4*1*400,400);
 		SetPadStyle();
 		gPad->SetRightMargin(0.03);
-		gPad->SetLeftMargin(0.14);
-		gPad->SetBottomMargin(0.16);
+		gPad->SetLeftMargin(0.13);
+		gPad->SetBottomMargin(0.17);
 		htmp = (TH1F*)gPad->DrawFrame(0,0,25,2.0);
-		SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",24,20);
-		htmp->GetYaxis()->SetTitleOffset(1.0);
+		SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",28,24);
+		htmp->GetYaxis()->SetTitleOffset(0.8);
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		{
-			TLegend *leg = new TLegend(0.10,0.73,0.4,0.93);
+			TLegend *leg = new TLegend(0.10,0.70,0.4,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","Inclusive J/#psi","");
+			le->SetTextSize(24);
 			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+			le->SetTextSize(24);
 			if ( iarm==0 ){
 				le = leg->AddEntry("","-2.2<y<-1.2, Au/Al-going","");
+				le->SetTextSize(24);
 			}else{
 				le = leg->AddEntry("","1.2<y<2.2, p/^{3}He-going","");
+				le->SetTextSize(24);
 			}
 			leg->Draw();
 
@@ -86,12 +90,15 @@ void Draw_RAB_Ncoll(){
 			box->Draw();
 		}
 		{
-			TLegend *leg = new TLegend(0.65,0.73,0.9,0.93);
+			TLegend *leg = new TLegend(0.65,0.7,0.9,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			leg->AddEntry(hRAB_Ncoll_pAl[iarm],"p+Al","P");
-			leg->AddEntry(hRAB_Ncoll_pAu[iarm],"p+Au","P");
-			leg->AddEntry(hRAB_Ncoll_HeAu[iarm],"^{3}He+Au","P");
+			le = leg->AddEntry(hRAB_Ncoll_pAl[iarm],"p+Al","P");
+			le->SetTextSize(24);
+			le = leg->AddEntry(hRAB_Ncoll_pAu[iarm],"p+Au","P");
+			le->SetTextSize(24);
+			le = leg->AddEntry(hRAB_Ncoll_HeAu[iarm],"^{3}He+Au","P");
+			le->SetTextSize(24);
 			leg->Draw();
 		}
 
@@ -103,6 +110,21 @@ void Draw_RAB_Ncoll(){
 
 		hRAB_Ncoll_HeAu_sys[iarm]->Draw("2");
 		hRAB_Ncoll_HeAu[iarm]->Draw("P");
+
+		{
+			TLatex *tex = new TLatex(22.5,1.82,Form("(%c)",97+iarm));
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(1,0.15,"PHENIX");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+
 	}
 
 	if ( bSAVE ){

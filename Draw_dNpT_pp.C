@@ -105,8 +105,8 @@ void Draw_dNpT_pp()
 	gPad->SetLeftMargin(0.15);
 	gPad->SetBottomMargin(0.0001);
 	htmp = (TH1F*)gPad->DrawFrame(0,5e-12,7.8,5e-7);
-	SetHistoStyle("p_{T} (GeV/c)","B_{ll} d^{2}N/(2#pip_{T}dp_{T}dy) (GeV/c)^{-2}","",20,18);
-	htmp->GetYaxis()->SetTitleOffset(1.8);
+	SetHistoStyle("p_{T} (GeV/c)","B_{ll} d^{2}N/(2#pip_{T}dp_{T}dy) (GeV/c)^{-2}","",24,20);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
 	htmp->GetXaxis()->SetTitleOffset(1.0);
 
 	gr_pp_sys[0]->Draw("2");
@@ -115,14 +115,25 @@ void Draw_dNpT_pp()
 	gr_pp[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.55,0.65,0.9,0.90);
+		TLegend *leg = new TLegend(0.5,0.60,0.9,0.90);
 		leg->SetFillStyle(0);
 		leg->SetBorderSize(0);
-		le = leg->AddEntry("","p+p #sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","p+p #sqrt{s}=200 GeV","");
+		le->SetTextSize(24);
 		le = leg->AddEntry("","Inclusive J/#psi","");
-		leg->AddEntry(gr_pp[0],"-2.2<y<-1.2","p");
-		leg->AddEntry(gr_pp[1],"1.2<y<2.2","p");
+		le->SetTextSize(24);
+		le = leg->AddEntry(gr_pp[0],"-2.2<y<-1.2","p");
+		le->SetTextSize(24);
+		le = leg->AddEntry(gr_pp[1],"1.2<y<2.2","p");
+		le->SetTextSize(24);
 		leg->Draw();
+	}
+
+	{
+		TLatex *tex = new TLatex(0.5, 1e-11, "PHENIX");
+		tex->SetTextFont(43);
+		tex->SetTextSize(24);
+		tex->Draw();
 	}
 
 	c00->cd();
@@ -132,10 +143,10 @@ void Draw_dNpT_pp()
 	gPad->SetRightMargin(0.02);
 	gPad->SetTopMargin(0.000000);
 	gPad->SetLeftMargin(0.15);
-	gPad->SetBottomMargin(0.24);
+	gPad->SetBottomMargin(0.28);
 	htmp = (TH1F*)gPad->DrawFrame(0,0.5,7.8,1.5);
-	SetHistoStyle("p_{T} (GeV/c)","Ratio","",20,18);
-	htmp->GetYaxis()->SetTitleOffset(1.8);
+	SetHistoStyle("p_{T} (GeV/c)","Ratio","",24,20);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
 	htmp->GetYaxis()->CenterTitle();
 	htmp->GetXaxis()->SetTitleOffset(3.0);
 
