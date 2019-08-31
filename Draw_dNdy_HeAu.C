@@ -26,7 +26,7 @@ void Draw_dNdy_HeAu(){
 	const double Ncoll_cent_sys[ncent] = {0.076233184, 0.074324324, 0.080272996};
 	const double BiasF_cent[ncent] = {0.950, 1.010, 1.025};
 	const double BiasF_cent_sys[ncent] = {0.010526316, 0.0099009901, 0.035018614};
-	const double Ncoll_syserr = 0.25;
+	const double Ncoll_syserr = 0.35;
 
 	const double Njpsi[ncent][narm][nybin] = {
 		{{236, 732, 658, 196}, {122, 556, 560, 281}},
@@ -532,6 +532,10 @@ void Draw_dNdy_HeAu(){
 	TCanvas *c12 = new TCanvas("c12","c12",1.3*3*300,1*300);
 	c12->Divide(3,1);
 
+	TCanvas *c11[ncent];
+
+	TCanvas *c13[ncent];
+
 	for (int icent=0; icent<ncent; icent++){
 
 		c10->cd(icent+1);
@@ -572,6 +576,63 @@ void Draw_dNdy_HeAu(){
 			leg->Draw();
 		}
 
+		c11[icent] = new TCanvas(Form("c11_%d",icent),Form("c11_%d",icent),1.4*400,400);
+		SetPadStyle();
+		gPad->SetTopMargin(0.08);
+		gPad->SetRightMargin(0.015);
+		gPad->SetLeftMargin(0.14);
+		gPad->SetBottomMargin(0.14);
+		htmp = (TH1F*)gPad->DrawFrame(-3,0,3,2.2e-6);
+		SetHistoStyle("y","B_{ll}dN/dy","",32,28);
+		htmp->GetYaxis()->SetTitleOffset(0.8);
+		htmp->GetXaxis()->SetTitleOffset(0.8);
+		for (int iarm=0; iarm<narm; iarm++){
+			gy_pp15_sys[iarm]->Draw("2");
+			gy_pp15[iarm]->Draw("p");
+
+			gy_sys[icent][iarm]->Draw("2");
+			gy[icent][iarm]->Draw("p");
+		}
+
+		{
+			TLegend *leg = new TLegend(0.18,0.68,0.6,0.9);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
+			le->SetTextSize(28);
+			le = leg->AddEntry("","Inclusive J/#psi","h");
+			le->SetTextSize(28);
+			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per[icent],'%',cent_per[icent+1],'%'),"h");
+			le->SetTextSize(28);
+			leg->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.6,0.68,0.93,0.9);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			le = leg->AddEntry("","","");
+			le = leg->AddEntry(gy[icent][0],"^{3}He+Au/#LTN_{coll}#GT","P");
+			le->SetTextSize(28);
+			le = leg->AddEntry(gy_pp15[0],"p+p","P");
+			le->SetTextSize(28);
+			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 2.0e-6, Form("(%c)",97+icent));
+			tex->SetTextFont(43);
+			tex->SetTextSize(28);
+			tex->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(1.6, 1.3e-6, "PHENIX");
+			tex->SetTextFont(43);
+			tex->SetTextSize(28);
+			tex->Draw();
+		}
+
 		c12->cd(icent+1);
 		SetPadStyle();
 		gPad->SetRightMargin(0.015);
@@ -608,8 +669,62 @@ void Draw_dNdy_HeAu(){
 			gR[icent][iarm]->Draw("p");
 		}
 
+		c13[icent] = new TCanvas(Form("c13_%d",icent),Form("c13_%d",icent),1.4*400,400);
+		SetPadStyle();
+		gPad->SetTopMargin(0.03);
+		gPad->SetRightMargin(0.015);
+		gPad->SetLeftMargin(0.14);
+		gPad->SetBottomMargin(0.14);
+		htmp = (TH1F*)gPad->DrawFrame(-3,0,3,2.0);
+		SetHistoStyle("y","R_{AB}","",32,28);
+		htmp->GetYaxis()->SetTitleOffset(0.8);
+		htmp->GetXaxis()->SetTitleOffset(0.8);
+
+		{
+			TLegend *leg = new TLegend(0.20,0.15,0.9,0.4);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
+			le->SetTextSize(28);
+			le = leg->AddEntry("","Inclusive J/#psi","h");
+			le->SetTextSize(28);
+			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per[icent],'%',cent_per[icent+1],'%'),"h");
+			le->SetTextSize(28);
+			leg->Draw();
+
+			TLine *line = new TLine(-3, 1, 3, 1);
+			line->SetLineStyle(2);
+			line->Draw();
+
+			float global_sys = sqrt(Ncoll_cent_sys[icent]*Ncoll_cent_sys[icent] + BiasF_cent_sys[icent]*BiasF_cent_sys[icent] + 0.101*0.101);
+			TBox *box = new TBox(2.8,1-global_sys,3.0,1+global_sys);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(nColor[icent],0.5);
+			box->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 1.8, Form("(%c)",97+icent));
+			tex->SetTextFont(43);
+			tex->SetTextSize(28);
+			tex->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(-2.5, 1.8, "PHENIX");
+			tex->SetTextFont(43);
+			tex->SetTextSize(28);
+			tex->Draw();
+		}
+
+		for (int iarm=0; iarm<narm; iarm++){
+			gR_sys[icent][iarm]->Draw("2");
+			gR[icent][iarm]->Draw("p");
+		}
+
 	}
 
+	/*
 	TCanvas *c13 = new TCanvas("c13","c13",1.3*400,400);
 	SetPadStyle();
 	gPad->SetRightMargin(0.03);
@@ -645,6 +760,7 @@ void Draw_dNdy_HeAu(){
 		gR_int[iarm]->Draw("p");
 
 	}
+	*/
 
 	if ( bWRITE ){
 		TFile *outfile = new TFile("RAB_y_Ncoll_HeAu200.root","recreate");
@@ -667,8 +783,18 @@ void Draw_dNdy_HeAu(){
 		c10->cd();
 		c10->SaveAs("pdf/fig_dNdy_HeAu.pdf");
 
+		for (int icent=0; icent<ncent; icent++){
+			c11[icent]->cd();
+			c11[icent]->SaveAs(Form("pdf/fig_dNdy_HeAu_centbin%d.pdf",icent));
+		}//
+
 		c12->cd();
 		c12->SaveAs("pdf/fig_RAB_y_HeAu.pdf");
+
+		for (int icent=0; icent<ncent; icent++){
+			c13[icent]->cd();
+			c13[icent]->SaveAs(Form("pdf/fig_RAB_y_HeAu_centbin%d.pdf",icent));
+		}//
 	}
 
 }

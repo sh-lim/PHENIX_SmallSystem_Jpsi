@@ -5,7 +5,7 @@
 void Draw_ptsq()
 {
 
-	const bool bSAVE = true;
+	const bool bSAVE = false;
 
 	SetStyle();
 
@@ -204,11 +204,11 @@ void Draw_ptsq()
 		c00[iarm]->cd(iarm+1);
 		SetPadStyle();
 		gPad->SetRightMargin(0.03);
-		gPad->SetLeftMargin(0.12);
-		gPad->SetBottomMargin(0.16);
+		gPad->SetLeftMargin(0.13);
+		gPad->SetBottomMargin(0.17);
 		htmp = (TH1F*)gPad->DrawFrame(0,0,25,6.5);
-		SetHistoStyle("#LTN_{coll}#GT","#LTp_{T}^{2}#GT","",24,20);
-		htmp->GetYaxis()->SetTitleOffset(0.8);
+		SetHistoStyle("#LTN_{coll}#GT","#LTp_{T}^{2}#GT","",28,24);
+		htmp->GetYaxis()->SetTitleOffset(0.7);
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		if ( iarm==0 ){
@@ -228,28 +228,50 @@ void Draw_ptsq()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.2,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.2,0.65,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
+			le->SetTextSize(24);
 			le = leg->AddEntry("","p_{T}<4 GeV/c","h");
+			le->SetTextSize(24);
 			if ( iarm==0 ){
 				le = leg->AddEntry("","-2.2<y<-1.2, Au/Al-going","h");
+				le->SetTextSize(24);
 			}else{
 				le = leg->AddEntry("","1.2<y<2.2, p/^{3}He-going","h");
+				le->SetTextSize(24);
 			}
 			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le->SetTextSize(24);
 			leg->Draw();
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.2,0.9,0.40);
+			TLegend *leg = new TLegend(0.65,0.2,0.9,0.45);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			leg->AddEntry(Ncoll_pAl_S,"p+Al","P");
-			leg->AddEntry(Ncoll_pAu_S,"p+Au","P");
-			leg->AddEntry(Ncoll_HeAu_S,"^{3}He+Au","P");
+			le = leg->AddEntry(Ncoll_pAl_S,"p+Al","P");
+			le->SetTextSize(24);
+			le = leg->AddEntry(Ncoll_pAu_S,"p+Au","P");
+			le->SetTextSize(24);
+			le = leg->AddEntry(Ncoll_HeAu_S,"^{3}He+Au","P");
+			le->SetTextSize(24);
 			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(22.5,5.8,Form("(%c)",97+iarm));
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(1,0.4,"PHENIX");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
 		}
 	}//iarm
 
