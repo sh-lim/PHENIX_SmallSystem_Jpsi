@@ -9,6 +9,10 @@ void Draw_dNdy_MB(){
 	const bool bSAVE = false;
 	const bool bWRITE = false;
 
+	const bool draw_breakup = false;
+	const bool draw_original = true;
+	const bool draw_breakup_modified = true;
+
 	double rap_pp[12], rap_pp_y[12], rap_pp_e1[12], rap_pp_e2[12], rap_pp_err[12];
 	double xec_pp[12], xec_pp_y[12], xec_pp_e1[12], xec_pp_e2[12], xec_pp_err[12];
 	rap_pp[0]  = -2.075; rap_pp_y[0]  = 17.6; rap_pp_e1[0]   = 0.5; rap_pp_e2[0]  = 1.5;
@@ -969,6 +973,153 @@ void Draw_dNdy_MB(){
 	}
 
 
+	// breakup cross section modifications - south arm only
+
+	// pAAl
+	// EPPS16
+	double mod_pal_bu_only[4] = {0.86, 0.88, 0.9, 0.91};
+	double mod_pal_bu_only_err[4] = {(1-0.86)/5, (1-0.88)/5, (1-0.9)/5, (1-0.91)/5}; // 20% of suppression
+	TGraph *gbu_pAl = new TGraph(4,rap_pp, mod_pal_bu_only);
+	gbu_pAl->SetLineColor(kRed);
+	gbu_pAl->SetLineWidth(5.0);
+
+	double x, y;
+	double ex[4] = {0,0,0,0};
+	double x_new[4], y_new[4], y_new_up[4], y_new_dn[4];
+	int N = gth_epps_pAl[0]->GetN();
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_epps_pAl[0]->GetPoint(i, x, y);
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_pal_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_epps_pAl[0]->GetErrorYhigh(i) * mod_pal_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
+
+	    cout << " i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_epps_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_epps_pAl_new->SetFillColorAlpha(kGreen+1,0.3);
+	gbu_epps_pAl_new->SetLineColor(0);
+
+	// NCTEQ
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_ncteq_pAl[0]->GetPoint(i, x, y);
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_pal_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_ncteq_pAl[0]->GetErrorYhigh(i) * mod_pal_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
+
+	    cout << "pAl NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_ncteq_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_ncteq_pAl_new->SetFillColorAlpha(2,0.3);
+	gbu_ncteq_pAl_new->SetFillStyle(3344);
+	gbu_ncteq_pAl_new->SetLineColor(0);
+
+	// p+Au
+
+	double mod_pau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};
+	double mod_pau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};
+	TGraph *gbu_pAu = new TGraph(4,rap_pp, mod_pau_bu_only);
+	gbu_pAu->SetLineColor(kRed);
+	gbu_pAu->SetLineWidth(5.0);
+
+	N = gth_epps_pAu[0]->GetN();
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_epps_pAu[0]->GetPoint(i, x, y);
+
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_pau_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_epps_pAu[0]->GetErrorYhigh(i) * mod_pau_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
+
+	    cout << " pAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_epps_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_epps_pAu_new->SetFillColorAlpha(kGreen+1,0.3);
+	gbu_epps_pAu_new->SetLineColor(0);
+
+	// NCTEQ
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_ncteq_pAu[0]->GetPoint(i, x, y);
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_pau_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_ncteq_pAu[0]->GetErrorYhigh(i) * mod_pau_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
+
+	    cout << "pAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_ncteq_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_ncteq_pAu_new->SetFillColorAlpha(2,0.3);
+	gbu_ncteq_pAu_new->SetFillStyle(3344);
+	gbu_ncteq_pAu_new->SetLineColor(0);
+
+	// 3He+Au
+
+	double mod_heau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};  // using p+Au values for now
+	double mod_heau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};  // 10% of suppression
+	TGraph *gbu_HeAu = new TGraph(4,rap_pp, mod_pau_bu_only);
+	gbu_HeAu->SetLineColor(kRed);
+	gbu_HeAu->SetLineWidth(5.0);
+
+	N = gth_epps_HeAu[0]->GetN();
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_epps_HeAu[0]->GetPoint(i, x, y);
+
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_heau_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_epps_HeAu[0]->GetErrorYhigh(i) * mod_heau_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
+
+	    cout << " HeAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_epps_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_epps_HeAu_new->SetFillColorAlpha(kGreen+1,0.3);
+	gbu_epps_HeAu_new->SetLineColor(0);
+
+	// NCTEQ
+	for(int i=0;i<N; ++i)
+	  {
+	    int val = gth_ncteq_HeAu[0]->GetPoint(i, x, y);
+	    x_new[i] = x;
+	    y_new[i] = y *  mod_heau_bu_only[i];
+	    y_new_up[i] = y_new[i] * sqrt( pow(gth_ncteq_HeAu[0]->GetErrorYhigh(i) * mod_heau_bu_only[i] / y_new[i], 2)  
+					   + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
+	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
+					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
+
+	    cout << "HeAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	  }
+
+	TGraphAsymmErrors *gbu_ncteq_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
+	gbu_ncteq_HeAu_new->SetFillColorAlpha(2,0.3);
+	gbu_ncteq_HeAu_new->SetFillStyle(3344);
+	gbu_ncteq_HeAu_new->SetLineColor(0);
 
 	//Drawing
 
@@ -1366,11 +1517,24 @@ void Draw_dNdy_MB(){
 	line_rap->Draw();
 	sysbox_y_pAl->Draw();
 
-	gth_epps_pAl[0]->Draw("3");
-	gth_epps_pAl[1]->Draw("3");
+	if(draw_original)
+	  {
+	    gth_epps_pAl[0]->Draw("3");
+	    gth_ncteq_pAl[0]->Draw("3");
+	  }
 
-	gth_ncteq_pAl[0]->Draw("3");
+	gth_epps_pAl[1]->Draw("3");
 	gth_ncteq_pAl[1]->Draw("3");
+
+	if(draw_breakup)
+	  gbu_pAl->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_epps_pAl_new->Draw("3");
+	    gbu_ncteq_pAl_new->Draw("3");
+	  }
+
 
 	gR_sys[0]->Draw("2");
 	gR_sys[1]->Draw("2");
@@ -1394,6 +1558,18 @@ void Draw_dNdy_MB(){
 		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16","f");
 		le->SetTextSize(20);
 		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15","f");
+		le->SetTextSize(20);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.6,0.76,0.9,0.98);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry("","","");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 + Abs","f");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
 		le->SetTextSize(20);
 		leg->Draw();
 	}
@@ -1457,17 +1633,37 @@ void Draw_dNdy_MB(){
 
 	line_rap->Draw();
 	sysbox_y_pAu->Draw();
-
+	/*
 	gth_epps_HeAu[0]->Draw("3");
 	gth_epps_HeAu[1]->Draw("3");
 
 	gth_ncteq_HeAu[0]->Draw("3");
 	gth_ncteq_HeAu[1]->Draw("3");
+	*/
 
+	if(draw_original)
+	  {
+	    gth_epps_pAu[0]->Draw("3");
+	    gth_ncteq_pAu[0]->Draw("3");
+	  }
+
+	gth_epps_pAu[1]->Draw("3");
+	gth_ncteq_pAu[1]->Draw("3");
+
+	if(draw_breakup)
+	  gbu_pAu->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_epps_pAu_new->Draw("3");
+	    gbu_ncteq_pAu_new->Draw("3");
+	  }
+	
 	gR_pAu_sys[0]->Draw("2");
 	gR_pAu_sys[1]->Draw("2");
 	gR_pAu[0]->Draw("p");
 	gR_pAu[1]->Draw("p");
+
 
 	{
 		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
@@ -1486,6 +1682,18 @@ void Draw_dNdy_MB(){
 		le = leg->AddEntry(gth_epps_HeAu[0],"EPPS16","f");
 		le->SetTextSize(20);
 		le = leg->AddEntry(gth_ncteq_HeAu[0],"nCTEQ15","f");
+		le->SetTextSize(20);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.6,0.70,0.9,0.92);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry("","","");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_pAu_new,"EPPS16 + Abs","f");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_ncteq_pAu_new,"nCTEQ15 + Abs","f");
 		le->SetTextSize(20);
 		leg->Draw();
 	}
@@ -1556,10 +1764,20 @@ void Draw_dNdy_MB(){
 	gth_ncteq_HeAu[0]->Draw("3");
 	gth_ncteq_HeAu[1]->Draw("3");
 
+	if(draw_breakup)
+	  gbu_HeAu->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_epps_HeAu_new->Draw("3");
+	    gbu_ncteq_HeAu_new->Draw("3");
+	  }
+
 	gR_HeAu_sys[0]->Draw("2");
 	gR_HeAu_sys[1]->Draw("2");
 	gR_HeAu[0]->Draw("p");
 	gR_HeAu[1]->Draw("p");
+
 
 	{
 		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
@@ -1581,6 +1799,18 @@ void Draw_dNdy_MB(){
 		le = leg->AddEntry(gth_epps_HeAu[0],"EPPS16","f");
 		le->SetTextSize(20);
 		le = leg->AddEntry(gth_ncteq_HeAu[0],"nCTEQ15","f");
+		le->SetTextSize(20);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.6,0.70,0.9,0.92);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry("","","");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_HeAu_new,"EPPS16 + Abs","f");
+		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_ncteq_HeAu_new,"nCTEQ15 + Abs","f");
 		le->SetTextSize(20);
 		leg->Draw();
 	}
