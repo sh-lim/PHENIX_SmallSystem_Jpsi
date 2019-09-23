@@ -445,7 +445,7 @@ void Draw_dNdy_HeAu(){
 		for (int iarm=0; iarm<narm; iarm++){
 			for (int iy=0; iy<nybin; iy++){
 
-				cout << icent << " " << iarm << " " << iy << " " << Ncoll_cent[icent] << " " << eff_y[icent][iarm][iy] << " " << trigeff_y[icent][iarm][iy] << endl;
+				//cout << icent << " " << iarm << " " << iy << " " << Ncoll_cent[icent] << " " << eff_y[icent][iarm][iy] << " " << trigeff_y[icent][iarm][iy] << endl;
 
 				Y[icent][iarm][iy] = Njpsi[icent][iarm][iy] / NMB[icent][iarm] / 0.25 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y[icent][iarm][iy] / trigeff_y[icent][iarm][iy];
 				Y_err[icent][iarm][iy] = Njpsi_err[icent][iarm][iy] / NMB[icent][iarm] / 0.25 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y[icent][iarm][iy] / trigeff_y[icent][iarm][iy];
@@ -467,6 +467,10 @@ void Draw_dNdy_HeAu(){
 				err0 = sqrt(sys_var_pp[iarm]*sys_var_pp[iarm] + sys_acceff_pp[iarm]*sys_acceff_pp[iarm] + sys_trigeff_y_pp[iarm][iy]*sys_trigeff_y_pp[iarm][iy]);
 				err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy]);
 				rpA_syserr[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1);
+
+				cout << icent << " " << iarm << " " << iy << endl;
+				cout << Form("%4.2f & $%cpm$%4.2f & $%cpm$%4.2f &",rpA[icent][iarm][iy],92,rpA_err[icent][iarm][iy],92,rpA_syserr[icent][iarm][iy]) << endl;
+				cout << endl;
 
 			}//iy
 

@@ -439,6 +439,10 @@ void Draw_dNdy_pAu(){
 				err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy]);
 				rpA_syserr[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1);
 
+				cout << icent << " " << iarm << " " << iy << endl;
+				cout << Form("%4.2f & $%cpm$%4.2f & $%cpm$%4.2f & %c%c",rpA[icent][iarm][iy],92,rpA_err[icent][iarm][iy],92,rpA_syserr[icent][iarm][iy],92,92) << endl;
+				cout << endl;
+
 			}//iy
 
 			Y_int[icent][iarm] = Njpsi_cent[icent][iarm] / NMB[icent][iarm] / 1.0 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y_int[icent][iarm] / trigeff_y_int[icent][iarm];

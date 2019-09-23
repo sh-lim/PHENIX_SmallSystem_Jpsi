@@ -432,6 +432,11 @@ void Draw_dNdy_pAl(){
 				err1 = sqrt(sys_var[iarm]*sys_var[iarm] + sys_acceff[iarm]*sys_acceff[iarm] + sys_trigeff_y[icent][iarm][iy]*sys_trigeff_y[icent][iarm][iy]);
 				rpA_syserr[icent][iarm][iy] = rpA[icent][iarm][iy]*sqrt(err0*err0 + err1*err1);
 
+				cout << icent << " " << iarm << " " << iy << endl;
+				//cout << Form("%4.2e %4.2e %4.2e",Y[icent][iarm][iy]*Ncoll_cent[icent],Y_err[icent][iarm][iy]*Ncoll_cent[icent],Y_syserr[icent][iarm][iy]*Ncoll_cent[icent]) << endl;
+				cout << Form("%4.2e & $%cpm$%4.2e & $%cpm$%4.2e & %c%c",Y[icent][iarm][iy]*Ncoll_cent[icent],92,Y_err[icent][iarm][iy]*Ncoll_cent[icent],92,Y_syserr[icent][iarm][iy]*Ncoll_cent[icent],92,92) << endl;
+				cout << Form("%4.2f & %4.2f & %4.2f &",rpA[icent][iarm][iy],rpA_err[icent][iarm][iy],rpA_syserr[icent][iarm][iy]) << endl;
+
 			}//iy
 
 			Y_int[icent][iarm] = Njpsi_cent[icent][iarm] / NMB[icent][iarm] / 1.0 / Ncoll_cent[icent] * BiasF_cent[icent] / eff_y_int[icent][iarm] / trigeff_y_int[icent][iarm];
