@@ -975,10 +975,12 @@ void Draw_dNdy_MB(){
 
 	// breakup cross section modifications - south arm only
 
-	// pAAl
+	// pAl
+
 	// EPPS16
-	double mod_pal_bu_only[4] = {0.86, 0.88, 0.9, 0.91};
-	double mod_pal_bu_only_err[4] = {(1-0.86)/5, (1-0.88)/5, (1-0.9)/5, (1-0.91)/5}; // 20% of suppression
+	double mod_pal_bu_only[4] = {0.864, 0.883, 0.900, 0.915};
+	double mod_pal_bu_only_err[4] = {0.008, 0.008, 0.008, 0.007}; 
+
 	TGraph *gbu_pAl = new TGraph(4,rap_pp, mod_pal_bu_only);
 	gbu_pAl->SetLineColor(kRed);
 	gbu_pAl->SetLineWidth(5.0);
@@ -1028,7 +1030,8 @@ void Draw_dNdy_MB(){
 	// p+Au
 
 	double mod_pau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};
-	double mod_pau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};
+	double mod_pau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
+	//double mod_pau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};
 	TGraph *gbu_pAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_pAu->SetLineColor(kRed);
 	gbu_pAu->SetLineWidth(5.0);
@@ -1076,7 +1079,7 @@ void Draw_dNdy_MB(){
 	// 3He+Au
 
 	double mod_heau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};  // using p+Au values for now
-	double mod_heau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};  // 10% of suppression
+	double mod_heau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
 	TGraph *gbu_HeAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_HeAu->SetLineColor(kRed);
 	gbu_HeAu->SetLineWidth(5.0);
