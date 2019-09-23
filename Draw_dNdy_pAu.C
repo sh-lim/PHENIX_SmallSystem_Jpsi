@@ -4,6 +4,7 @@ void Draw_dNdy_pAu(){
 
 	const bool bWRITE = false;
 	const bool bSAVE = false;
+	const bool draw_breakup = true;
 
 	SetStyle();
 
@@ -684,6 +685,7 @@ void Draw_dNdy_pAu(){
 			box->Draw();
 		}
 
+		if(draw_breakup)
 		{
 		  TLegend *leg = new TLegend(0.65,0.70,0.92,0.92);
 		  leg->SetFillStyle(0);
@@ -697,11 +699,13 @@ void Draw_dNdy_pAu(){
 		for (int iarm=0; iarm<narm; iarm++){
 			gR_sys[icent][iarm]->Draw("2");
 			gR[icent][iarm]->Draw("p");
-			if(iarm == 0)
+			if(draw_breakup)
 			  {
-			    cout << "Drawing gbu_mod_pau for icent = " << icent << endl; 
-			    gbu_mod_pau[icent]->Draw("3");
-
+			    if(iarm == 0)
+			      {
+				cout << "Drawing gbu_mod_pau for icent = " << icent << endl; 
+				gbu_mod_pau[icent]->Draw("3");
+			      }
 			  }
 		}
 
