@@ -1037,7 +1037,6 @@ void Draw_dNdy_MB(){
 
 	double mod_pau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};
 	double mod_pau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
-	//double mod_pau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};
 	TGraph *gbu_pAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_pAu->SetLineColor(kRed);
 	gbu_pAu->SetLineWidth(5.0);

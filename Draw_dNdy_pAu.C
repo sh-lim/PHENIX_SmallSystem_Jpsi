@@ -505,7 +505,7 @@ void Draw_dNdy_pAu(){
 	// Breakup modifications - backward rapidity only
 	// note order is increasing *magnitude* of rapidity
 	double bu_mod_pau[ncent][4] = {
-	  0.600, 0.549, 0.504, 0.469,
+	  0.600, 0.549, 0.504, 0.469,   // 0-5%
 	  0.615, 0.566, 0.521, 0.486,
 	  0.637, 0.590, 0.546, 0.510,
 	  1.0,1.0,1.0,1.0,    // dummy centrality, will be skipped later
@@ -528,7 +528,7 @@ void Draw_dNdy_pAu(){
 	for(int icent=0; icent<ncent; ++icent)
 	  {
 	    gbu_mod_pau[icent] = new TGraphErrors(4, xx[0], bu_mod_pau[icent],xx_err[0], bu_mod_pau_err[icent]);
-	    gbu_mod_pau[icent]->SetFillColorAlpha(4, 0.3);
+	    gbu_mod_pau[icent]->SetFillColorAlpha(kRed, 0.35);
 	    gbu_mod_pau[icent]->SetLineColor(0);
 	  }
 	for(int irap =0; irap<4; ++irap)
