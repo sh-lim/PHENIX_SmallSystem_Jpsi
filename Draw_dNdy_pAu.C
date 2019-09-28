@@ -4,7 +4,7 @@ void Draw_dNdy_pAu(){
 
 	const bool bWRITE = false;
 	const bool bSAVE = false;
-	const bool draw_breakup = true;
+	const bool draw_breakup = false;
 
 	SetStyle();
 
@@ -511,7 +511,8 @@ void Draw_dNdy_pAu(){
 	  1.0,1.0,1.0,1.0,    // dummy centrality, will be skipped later
 	  0.664, 0.620, 0.578, 0.543,
 	  0.702, 0.662, 0.623, 0.589,
-	  0.810, 0.783, 0.756, 0.729
+	  //	  0.810, 0.783, 0.756, 0.729
+	  0.784, 0.754, 0.723, 0.694
 	};
 
 	double bu_mod_pau_err[ncent][4] = {
