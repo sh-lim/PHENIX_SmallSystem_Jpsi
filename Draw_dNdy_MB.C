@@ -984,7 +984,7 @@ void Draw_dNdy_MB(){
 	// pAl
 
 	// EPPS16
-	double mod_pal_bu_only[4] = {0.864, 0.883, 0.900, 0.915};
+	double mod_pal_bu_only[4] = {0.864, 0.883, 0.900, 0.915};  // using rT values from PHENIX Glauber
 	double mod_pal_bu_only_err[4] = {0.008, 0.008, 0.008, 0.007}; 
 
 	TGraph *gbu_pAl = new TGraph(4,rap_pp, mod_pal_bu_only);
@@ -1005,8 +1005,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
 
-	    cout << " i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << " i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1024,8 +1024,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
 
-	    cout << "pAl NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "pAl NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1035,7 +1035,7 @@ void Draw_dNdy_MB(){
 
 	// p+Au
 
-	double mod_pau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};
+	double mod_pau_bu_only[4] = {0.572, 0.605, 0.645, 0.686}; // using rT values from PHENIX Glauber
 	double mod_pau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
 	TGraph *gbu_pAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_pAu->SetLineColor(kRed);
@@ -1053,8 +1053,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
 
-	    cout << " pAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << " pAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1072,8 +1072,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
 
-	    cout << "pAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "pAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1083,7 +1083,7 @@ void Draw_dNdy_MB(){
 
 	// 3He+Au
 
-	double mod_heau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};  // using p+Au values for now
+	double mod_heau_bu_only[4] = {0.554, 0.588, 0.629, 0.672};  // using correct rT values from PHENIX Glauber
 	double mod_heau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
 	TGraph *gbu_HeAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_HeAu->SetLineColor(kRed);
@@ -1101,8 +1101,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
 
-	    cout << " HeAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << " HeAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1120,8 +1120,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
 
-	    cout << "HeAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "HeAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
