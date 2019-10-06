@@ -958,6 +958,23 @@ void Draw_dNdy_MB(){
 	gth_ncteq_pAl[0] = (TGraphAsymmErrors*)infile_th0_pAl->Get("RpAl_ncteq_MB_rap_predictions_bkwd");
 	gth_ncteq_pAl[1] = (TGraphAsymmErrors*)infile_th0_pAl->Get("RpAl_ncteq_MB_rap_predictions_fwd");
 
+	// Theory curves Ramona
+	TFile *infile_th1_pAl = new TFile("RpAl_epps16_MB_ramona.root", "read");
+	TFile *infile_th1_pAu = new TFile("RpAu_epps16_MB_ramona.root", "read");
+	TFile *infile_th1_HeAu = new TFile("RHeAu_epps16_MB_ramona.root", "read");
+
+	TGraphAsymmErrors *gth1_epps_pAl[narm];
+	gth1_epps_pAl[0] = (TGraphAsymmErrors*)infile_th1_pAl->Get("RpAl_epps16_ramona_rap_MB_bkwd");
+	gth1_epps_pAl[1] = (TGraphAsymmErrors*)infile_th1_pAl->Get("RpAl_epps16_ramona_rap_MB_fwd");
+	
+	TGraphAsymmErrors *gth1_epps_pAu[narm];
+	gth1_epps_pAu[0] = (TGraphAsymmErrors*)infile_th1_pAu->Get("RpAu_epps16_ramona_rap_MB_bkwd");
+	gth1_epps_pAu[1] = (TGraphAsymmErrors*)infile_th1_pAu->Get("RpAu_epps16_ramona_rap_MB_fwd");
+     
+	TGraphAsymmErrors *gth1_epps_HeAu[narm];
+	gth1_epps_HeAu[0] = (TGraphAsymmErrors*)infile_th1_HeAu->Get("RHeAu_epps16_ramona_rap_MB_bkwd");
+	gth1_epps_HeAu[1] = (TGraphAsymmErrors*)infile_th1_HeAu->Get("RHeAu_epps16_ramona_rap_MB_fwd");
+
 	for (int iarm=0; iarm<narm; iarm++){
 		gth_epps_HeAu[iarm]->SetFillColorAlpha(4,0.3);
 		gth_epps_HeAu[iarm]->SetLineColor(0);
@@ -976,6 +993,18 @@ void Draw_dNdy_MB(){
 		gth_ncteq_pAl[iarm]->SetFillColorAlpha(1,0.3);
 		gth_ncteq_pAl[iarm]->SetFillStyle(3344);
 		gth_ncteq_pAl[iarm]->SetLineColor(0);
+
+		gth1_epps_HeAu[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_HeAu[iarm]->SetLineColor(0);
+		gth1_epps_HeAu[iarm]->SetFillStyle(3001);
+	
+		gth1_epps_pAu[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_pAu[iarm]->SetLineColor(0);
+		gth1_epps_pAu[iarm]->SetFillStyle(3001);
+	
+		gth1_epps_pAl[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_pAl[iarm]->SetLineColor(0);
+		gth1_epps_pAl[iarm]->SetFillStyle(3001);
 	}
 
 
@@ -1029,8 +1058,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
-	gbu_ncteq_pAl_new->SetFillColorAlpha(2,0.3);
-	gbu_ncteq_pAl_new->SetFillStyle(3344);
+	gbu_ncteq_pAl_new->SetFillColorAlpha(2,0.5);
+	gbu_ncteq_pAl_new->SetFillStyle(3005);
 	gbu_ncteq_pAl_new->SetLineColor(0);
 
 	// p+Au
@@ -1077,8 +1106,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
-	gbu_ncteq_pAu_new->SetFillColorAlpha(2,0.3);
-	gbu_ncteq_pAu_new->SetFillStyle(3344);
+	gbu_ncteq_pAu_new->SetFillColorAlpha(2,0.5);
+	gbu_ncteq_pAu_new->SetFillStyle(3005);
 	gbu_ncteq_pAu_new->SetLineColor(0);
 
 	// 3He+Au
@@ -1125,8 +1154,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
-	gbu_ncteq_HeAu_new->SetFillColorAlpha(2,0.3);
-	gbu_ncteq_HeAu_new->SetFillStyle(3344);
+	gbu_ncteq_HeAu_new->SetFillColorAlpha(2,0.5);
+	gbu_ncteq_HeAu_new->SetFillStyle(3005);
 	gbu_ncteq_HeAu_new->SetLineColor(0);
 
 	//Drawing
@@ -1166,7 +1195,7 @@ void Draw_dNdy_MB(){
 	gPad->SetLeftMargin(0.13);
 	gPad->SetBottomMargin(0.13);
 	htmp = (TH1F*)gPad->DrawFrame(-3,0,3,1.6e-6);
-	SetHistoStyle("y","B_{ll}dN/dy","",24,20);
+	SetHistoStyle("y","B_{ll}dN/dy","",24,22);
 	htmp->GetYaxis()->SetTitleOffset(0.9);
 	htmp->GetXaxis()->SetTitleOffset(0.9);
 
@@ -1176,30 +1205,32 @@ void Draw_dNdy_MB(){
 	gy_pp15[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.55,0.70,0.9,0.90);
+		TLegend *leg = new TLegend(0.6,0.69,0.9,0.90);
 		leg->SetFillStyle(0);
-		entry = leg->AddEntry("","Inclusive J/#psi","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry(gy_pp15[0],"p+p","p");
-		entry->SetTextSize(20);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","Inclusive J/#psi","h");
+		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+		entry = leg->AddEntry("","PHENIX","h");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45e-6, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(20);
-		tex->Draw();
+		TLegend *leg = new TLegend(0.15,0.76,0.45,0.90);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","","");
+		entry = leg->AddEntry(gy_pp15[0],"p+p","p");
+		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(2.5, 1.45e-6, "(a)");
+		TLatex *tex = new TLatex(2.5, 1.1e-6, "(a)");
 		tex->SetTextFont(43);
-		tex->SetTextSize(20);
+		tex->SetTextSize(24);
 		tex->Draw();
 	}
+
+	//return;
 
 	c10->cd(2);
 	SetPadStyle();
@@ -1233,7 +1264,7 @@ void Draw_dNdy_MB(){
 	gPad->SetLeftMargin(0.13);
 	gPad->SetBottomMargin(0.13);
 	htmp = (TH1F*)gPad->DrawFrame(-3,0,3,1.6e-6);
-	SetHistoStyle("y","B_{ll}dN/dy","",24,20);
+	SetHistoStyle("y","B_{ll}dN/dy","",24,22);
 	htmp->GetYaxis()->SetTitleOffset(0.9);
 	htmp->GetXaxis()->SetTitleOffset(0.9);
 
@@ -1243,31 +1274,32 @@ void Draw_dNdy_MB(){
 	gy[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.55,0.70,0.9,0.90);
+		TLegend *leg = new TLegend(0.6,0.69,0.9,0.90);
 		leg->SetFillStyle(0);
-		entry = leg->AddEntry("","Inclusive J/#psi","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry(gy[0],"p+Al/#LTN_{coll}#GT","p");
-		entry->SetTextSize(20);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","Inclusive J/#psi","h");
+		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+		entry = leg->AddEntry("","PHENIX","h");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45e-6, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(20);
-		tex->Draw();
+		TLegend *leg = new TLegend(0.15,0.76,0.45,0.90);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","0%-100%","");
+		entry = leg->AddEntry(gy[0],"p+Al/#LTN_{coll}#GT","p");
+		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(2.5, 1.45e-6, "(b)");
+		TLatex *tex = new TLatex(2.5, 1.1e-6, "(b)");
 		tex->SetTextFont(43);
-		tex->SetTextSize(20);
+		tex->SetTextSize(24);
 		tex->Draw();
 	}
 
+	//return;
 
 	c10->cd(3);
 	SetPadStyle();
@@ -1301,7 +1333,7 @@ void Draw_dNdy_MB(){
 	gPad->SetLeftMargin(0.13);
 	gPad->SetBottomMargin(0.13);
 	htmp = (TH1F*)gPad->DrawFrame(-3,0,3,1.6e-6);
-	SetHistoStyle("y","B_{ll}dN/dy","",24,20);
+	SetHistoStyle("y","B_{ll}dN/dy","",24,22);
 	htmp->GetYaxis()->SetTitleOffset(0.9);
 	htmp->GetXaxis()->SetTitleOffset(0.9);
 
@@ -1311,30 +1343,32 @@ void Draw_dNdy_MB(){
 	gy_pAu[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.55,0.70,0.9,0.90);
+		TLegend *leg = new TLegend(0.6,0.69,0.9,0.90);
 		leg->SetFillStyle(0);
-		entry = leg->AddEntry("","Inclusive J/#psi","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry(gy_pAu[0],"p+Au/#LTN_{coll}#GT","p");
-		entry->SetTextSize(20);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","Inclusive J/#psi","h");
+		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+		entry = leg->AddEntry("","PHENIX","h");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45e-6, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(20);
-		tex->Draw();
+		TLegend *leg = new TLegend(0.15,0.76,0.45,0.90);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","0%-100%","");
+		entry = leg->AddEntry(gy_pAu[0],"p+Au/#LTN_{coll}#GT","p");
+		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(2.5, 1.45e-6, "(c)");
+		TLatex *tex = new TLatex(2.5, 1.1e-6, "(c)");
 		tex->SetTextFont(43);
-		tex->SetTextSize(20);
+		tex->SetTextSize(24);
 		tex->Draw();
 	}
+
+	//return;
 
 	c10->cd(4);
 	SetPadStyle();
@@ -1368,7 +1402,7 @@ void Draw_dNdy_MB(){
 	gPad->SetLeftMargin(0.13);
 	gPad->SetBottomMargin(0.13);
 	htmp = (TH1F*)gPad->DrawFrame(-3,0,3,1.6e-6);
-	SetHistoStyle("y","B_{ll}dN/dy","",24,20);
+	SetHistoStyle("y","B_{ll}dN/dy","",24,22);
 	htmp->GetYaxis()->SetTitleOffset(0.9);
 	htmp->GetXaxis()->SetTitleOffset(0.9);
 
@@ -1378,28 +1412,28 @@ void Draw_dNdy_MB(){
 	gy_HeAu[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.55,0.70,0.9,0.90);
+		TLegend *leg = new TLegend(0.6,0.69,0.9,0.90);
 		leg->SetFillStyle(0);
-		entry = leg->AddEntry("","Inclusive J/#psi","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		entry->SetTextSize(20);
-		entry = leg->AddEntry(gy_HeAu[0],"^{3}He+Au/#LTN_{coll}#GT","p");
-		entry->SetTextSize(20);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","Inclusive J/#psi","h");
+		entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+		entry = leg->AddEntry("","PHENIX","h");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45e-6, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(20);
-		tex->Draw();
+		TLegend *leg = new TLegend(0.15,0.76,0.45,0.90);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		entry = leg->AddEntry("","0%-100%","");
+		entry = leg->AddEntry(gy_HeAu[0],"^{3}He+Au/#LTN_{coll}#GT","p");
+		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(2.5, 1.45e-6, "(c)");
+		TLatex *tex = new TLatex(2.5, 1.1e-6, "(d)");
 		tex->SetTextFont(43);
-		tex->SetTextSize(20);
+		tex->SetTextSize(24);
 		tex->Draw();
 	}
 
@@ -1457,25 +1491,19 @@ void Draw_dNdy_MB(){
 	grda_dAu_sys->Draw("2");
 
 	{
-		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
+		TLegend *leg = new TLegend(0.55,0.74,0.9,0.95);
 		leg->SetFillStyle(0);
-		leg->AddEntry("","Inclusive J/#psi","");
-		leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		leg->AddEntry(grda_dAu,"0%-100% d+Au","p");
+		leg->SetTextSize(24);
+		le = leg->AddEntry("","Inclusive J/#psi","");
+		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","PHENIX","");
 		leg->Draw();
-	}
-
-	{
-		TLatex *tex = new TLatex(-2.5, 1.45, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(20);
-		tex->Draw();
 	}
 
 	{
 		TLatex *tex = new TLatex(2.5, 1.45, "(c)");
 		tex->SetTextFont(43);
-		tex->SetTextSize(20);
+		tex->SetTextSize(24);
 		tex->Draw();
 	}
 
@@ -1529,10 +1557,12 @@ void Draw_dNdy_MB(){
 	  {
 	    gth_epps_pAl[0]->Draw("3");
 	    gth_ncteq_pAl[0]->Draw("3");
+			gth1_epps_pAl[0]->Draw("3");
 	  }
 
 	gth_epps_pAl[1]->Draw("3");
 	gth_ncteq_pAl[1]->Draw("3");
+	gth1_epps_pAl[1]->Draw("3");
 
 	if(draw_breakup)
 	  gbu_pAl->Draw("l");
@@ -1550,54 +1580,51 @@ void Draw_dNdy_MB(){
 	gR[1]->Draw("p");
 
 	{
-		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
+		TLegend *leg = new TLegend(0.55,0.74,0.9,0.95);
 		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
 		le = leg->AddEntry("","Inclusive J/#psi","");
-		le->SetTextSize(24);
 		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		le->SetTextSize(24);
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.15,0.87,0.45,0.95);
+		leg->SetFillStyle(0);
 		le = leg->AddEntry(gR[0],"0%-100% p+Al","p");
 		le->SetTextSize(24);
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.18,0.9,0.4);
+		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
 		leg->SetFillStyle(0);
-		le = leg->AddEntry("","","");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16","f");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15","f");
-		le->SetTextSize(24);
+		leg->SetTextSize(20);
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.76,0.9,0.98);
+		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
 		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 + Abs","f");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
-		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45, "PHENIX");
+		TLatex *tex = new TLatex(2.5, 1.47, "(a)");
 		tex->SetTextFont(43);
 		tex->SetTextSize(24);
 		tex->Draw();
 	}
 
-	{
-		TLatex *tex = new TLatex(2.5, 1.45, "(a)");
-		tex->SetTextFont(43);
-		tex->SetTextSize(24);
-		tex->Draw();
-	}
+	//return;
 
 	c1->cd(2);
 	SetPadStyle();
@@ -1656,10 +1683,12 @@ void Draw_dNdy_MB(){
 	  {
 	    gth_epps_pAu[0]->Draw("3");
 	    gth_ncteq_pAu[0]->Draw("3");
+			gth1_epps_pAu[0]->Draw("3");
 	  }
 
 	gth_epps_pAu[1]->Draw("3");
 	gth_ncteq_pAu[1]->Draw("3");
+	gth1_epps_pAu[1]->Draw("3");
 
 	if(draw_breakup)
 	  gbu_pAu->Draw("l");
@@ -1675,56 +1704,52 @@ void Draw_dNdy_MB(){
 	gR_pAu[0]->Draw("p");
 	gR_pAu[1]->Draw("p");
 
+	{
+		TLegend *leg = new TLegend(0.55,0.74,0.9,0.95);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		le = leg->AddEntry("","Inclusive J/#psi","");
+		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
 
 	{
-		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
+		TLegend *leg = new TLegend(0.15,0.87,0.45,0.95);
 		leg->SetFillStyle(0);
-		le = leg->AddEntry("","Inclusive J/#psi","");
-		le->SetTextSize(24);
-		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		le->SetTextSize(24);
 		le = leg->AddEntry(gR_pAu[0],"0%-100% p+Au","p");
 		le->SetTextSize(24);
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.18,0.9,0.4);
+		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
 		leg->SetFillStyle(0);
-		le = leg->AddEntry("","","");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_epps_HeAu[0],"EPPS16","f");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_ncteq_HeAu[0],"nCTEQ15","f");
-		le->SetTextSize(24);
+		leg->SetTextSize(20);
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.70,0.9,0.92);
+		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
 		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_epps_pAu_new,"EPPS16 + Abs","f");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_ncteq_pAu_new,"nCTEQ15 + Abs","f");
-		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
 	}
 
 	{
-		TLatex *tex = new TLatex(-2.5, 1.45, "PHENIX");
+		TLatex *tex = new TLatex(2.5, 1.47, "(b)");
 		tex->SetTextFont(43);
 		tex->SetTextSize(24);
 		tex->Draw();
 	}
 
-	{
-		TLatex *tex = new TLatex(2.5, 1.45, "(b)");
-		tex->SetTextFont(43);
-		tex->SetTextSize(24);
-		tex->Draw();
-	}
+	//return;
 
 	c1->cd(4);
 	SetPadStyle();
@@ -1778,6 +1803,9 @@ void Draw_dNdy_MB(){
 	gth_ncteq_HeAu[0]->Draw("3");
 	gth_ncteq_HeAu[1]->Draw("3");
 
+	gth1_epps_HeAu[0]->Draw("3");
+	gth1_epps_HeAu[1]->Draw("3");
+
 	if(draw_breakup)
 	  gbu_HeAu->Draw("l");
 
@@ -1794,46 +1822,41 @@ void Draw_dNdy_MB(){
 
 
 	{
-		TLegend *leg = new TLegend(0.15,0.18,0.6,0.4);
+		TLegend *leg = new TLegend(0.55,0.74,0.9,0.95);
 		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
 		le = leg->AddEntry("","Inclusive J/#psi","");
-		le->SetTextSize(24);
 		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
-		le->SetTextSize(24);
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.15,0.87,0.45,0.95);
+		leg->SetFillStyle(0);
 		le = leg->AddEntry(gR_HeAu[0],"0%-100% ^{3}He+Au","p");
 		le->SetTextSize(24);
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.18,0.9,0.4);
+		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
 		leg->SetFillStyle(0);
-		le = leg->AddEntry("","","");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_epps_HeAu[0],"EPPS16","f");
-		le->SetTextSize(24);
-		le = leg->AddEntry(gth_ncteq_HeAu[0],"nCTEQ15","f");
-		le->SetTextSize(24);
+		leg->SetTextSize(20);
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.70,0.9,0.92);
+		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
 		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_epps_HeAu_new,"EPPS16 + Abs","f");
-		le->SetTextSize(20);
-		le = leg->AddEntry(gbu_ncteq_HeAu_new,"nCTEQ15 + Abs","f");
-		le->SetTextSize(20);
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
-	}
-
-	{
-		TLatex *tex = new TLatex(-2.5, 1.45, "PHENIX");
-		tex->SetTextFont(43);
-		tex->SetTextSize(24);
-		tex->Draw();
 	}
 
 	{

@@ -617,6 +617,7 @@ void Draw_dNdy_pAu(){
 			gy[icent][iarm]->Draw("p");
 		}
 
+		/*
 		{
 			TLegend *leg = new TLegend(0.18,0.68,0.6,0.9);
 			leg->SetFillStyle(0);
@@ -629,31 +630,36 @@ void Draw_dNdy_pAu(){
 			le->SetTextSize(28);
 			leg->Draw();
 		}
+		*/
 
 		{
-			TLegend *leg = new TLegend(0.6,0.68,0.93,0.9);
+			TLegend *leg = new TLegend(0.15,0.64,0.5,0.88);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","","");
+			leg->SetTextSize(28);
+			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_min[icent],'%',cent_per_max[icent],'%'),"");
 			le = leg->AddEntry(gy[icent][0],"p+Au/#LTN_{coll}#GT","P");
-			le->SetTextSize(28);
 			le = leg->AddEntry(gy_pp15[0],"p+p","P");
-			le->SetTextSize(28);
 			leg->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(2.5, 2.0e-6, Form("(%c)",97+count));
+			TLatex *tex = new TLatex(2.5, 1.95e-6, Form("(%c)",97+count));
 			tex->SetTextFont(43);
-			tex->SetTextSize(28);
+			tex->SetTextSize(24);
 			tex->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(1.6, 1.3e-6, "PHENIX");
-			tex->SetTextFont(43);
-			tex->SetTextSize(28);
-			tex->Draw();
+			TLegend *leg = new TLegend(0.6,0.64,0.9,0.88);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextFont(43);
+			leg->SetTextSize(28);
+			leg->AddEntry("","Inclusive J/#psi","h");
+			leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			leg->AddEntry("","PHENIX","h");
+			leg->Draw();
 		}
 
 		c12->cd(count+1);
@@ -723,14 +729,10 @@ void Draw_dNdy_pAu(){
 		htmp->GetXaxis()->SetTitleOffset(0.8);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.6,0.6,0.85);
+			TLegend *leg = new TLegend(0.15,0.2,0.55,0.28);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(28);
-			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(28);
-			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_min[icent],'%',cent_per_max[icent],'%'),"h");
+			le = leg->AddEntry(gR[icent][0],Form("%d%c-%d%c, p+Au",cent_per_min[icent],'%',cent_per_max[icent],'%'),"p");
 			le->SetTextSize(28);
 			leg->Draw();
 
@@ -748,15 +750,20 @@ void Draw_dNdy_pAu(){
 		{
 			TLatex *tex = new TLatex(2.5, 1.8, Form("(%c)",97+count));
 			tex->SetTextFont(43);
-			tex->SetTextSize(28);
+			tex->SetTextSize(24);
 			tex->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(-2.5, 1.8, "PHENIX");
-			tex->SetTextFont(43);
-			tex->SetTextSize(28);
-			tex->Draw();
+			TLegend *leg = new TLegend(0.6,0.7,0.9,0.94);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextFont(43);
+			leg->SetTextSize(28);
+			leg->AddEntry("","Inclusive J/#psi","h");
+			leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			leg->AddEntry("","PHENIX","h");
+			leg->Draw();
 		}
 
 		for (int iarm=0; iarm<narm; iarm++){
