@@ -6,7 +6,7 @@ void Draw_RAB_pT_all()
 	const bool bSAVE = false;
 
 	SetStyle();
-	gStyle->SetLegendTextSize(16);
+	gStyle->SetLegendTextSize(20);
 
   char name1[500];
   char name2[500];
@@ -18,12 +18,14 @@ void Draw_RAB_pT_all()
 
 	const int narm = 2;
 	const int nptbin_pAu = 19;
-	const int nptbin_pAl = 16;
-	const int nptbin_HeAu = 13;
+	const int nptbin_pAl = 18;
+	const int nptbin_HeAu = 15;
+	const int nptbin_dAu = 23;
 
 	const int ncentbin_pAu = 7;
 	const int ncentbin_pAl = 3;
 	const int ncentbin_HeAu = 3;
+	const int ncentbin_dAu = 4;
 
 	const int cent_per_pAu_min[ncentbin_pAu] = {0, 5, 10, 0, 20, 40, 60};
 	const int cent_per_pAu_max[ncentbin_pAu] = {5, 10, 20, 20, 40, 60, 84};
@@ -33,6 +35,9 @@ void Draw_RAB_pT_all()
 
 	const int cent_per_HeAu_min[ncentbin_HeAu] = {0, 20, 40};
 	const int cent_per_HeAu_max[ncentbin_HeAu] = {20, 40, 88};
+
+	const int cent_per_dAu_min[ncentbin_dAu] = {0, 20, 40, 60};
+	const int cent_per_dAu_max[ncentbin_dAu] = {20, 40, 60, 84};
 
 	const char c_arm[narm] = {'S', 'N'};
 
@@ -44,6 +49,9 @@ void Draw_RAB_pT_all()
 
 	const double Ncoll_HeAu_sys[ncentbin_HeAu] = {0.076233184, 0.074324324, 0.080272996};
 	const double BiasF_HeAu_sys[ncentbin_HeAu] = {0.010526316, 0.0099009901, 0.035018614};
+
+	const double Ncoll_dAu_sys[ncentbin_dAu] = {1.0/15.1, 0.7/10.2, 0.4/6.6, 0.2/3.2};
+	const double BiasF_dAu_sys[ncentbin_dAu] = {0.01/0.94, 0.006/1.000, 0.02/1.03, 0.06/1.03};
 
 	// RAB arrays for TGraphs
 	double RpAu_array[ncentbin_pAu][narm][nptbin_pAu] = {0};
@@ -99,18 +107,88 @@ void Draw_RAB_pT_all()
 		RHeAu_SYS_FRAC_ERR[2][iarm] = (TH1F*)file_HeAu->Get(Form("RHeAu_vs_pT_%c_4088_sys_frac",c_arm[iarm]));
 	}
 
+	// R_dAu data points from PPG125
+ double RAA_dAu[2][4][28] = {
+    {
+     0.702,0.760,0.840,0.894,0.954,1.008,1.000,1.058,1.058,1.252,1.240,1.249,1.230,1.088,1.406,1.131,1.244,1.209,1.824,1.508,1.182,1.171,1.848,2.079,0.0,0.0,0.0,0.0,
+     0.706,0.739,0.815,0.925,0.984,0.874,1.021,1.008,1.067,1.169,1.103,1.137,1.160,1.099,1.234,0.957,1.376,1.077,1.401,1.028,1.481,1.188,0.793,0.996,0.0,0.0,0.0,0.0,
+     0.953,0.865,0.995,0.920,0.976,0.929,0.979,1.018,1.015,1.159,1.227,1.036,1.046,1.114,1.152,1.124,1.313,1.427,1.080,1.365,0.985,1.354,1.297,4.130,0.0,0.0,0.0,0.0,
+     0.829,0.823,0.922,0.965,0.947,0.965,0.990,0.888,1.097,1.073,1.047,1.175,1.132,0.908,0.926,0.804,1.277,0.642,1.827,0.700,1.193,3.141,1.122,0.443,0.0,0.0,0.0,0.0},
+     {
+     0.566,0.557,0.557,0.563,0.559,0.594,0.634,0.587,0.698,0.691,0.691,0.713,0.812,0.631,0.708,0.772,0.922,0.834,0.953,0.922,0.735,0.997,0.971,0.989,0.0,0.0,0.0,0.0,
+     0.649,0.735,0.680,0.697,0.661,0.653,0.712,0.701,0.716,0.818,0.831,0.831,0.844,0.728,0.752,0.819,1.191,1.252,1.276,1.206,0.859,0.960,1.111,1.519,0.0,0.0,0.0,0.0,
+     0.897,0.731,0.816,0.778,0.802,0.862,0.916,0.865,0.859,0.854,0.781,0.933,0.907,0.807,0.878,0.868,1.109,0.911,1.082,1.246,1.114,1.417,1.268,0.747,0.0,0.0,0.0,0.0,
+     1.038,1.100,0.961,0.873,0.859,0.800,1.028,0.963,0.864,0.939,0.966,1.146,0.999,0.886,0.897,0.741,0.985,1.228,1.477,0.906,0.913,1.622,1.381,1.527,0.0,0.0,0.0,0.0}};
+
+  double RAA_dAu_ERR[2][4][28] = {
+    {
+     0.121,0.104,0.105,0.076,0.059,0.066,0.061,0.066,0.062,0.072,0.076,0.083,0.095,0.093,0.13,0.124,0.165,0.186,0.314,0.329,0.33,0.522,0.83,1.364,0.0,0.0,0.0,0.0,
+     0.123,0.108,0.113,0.069,0.051,0.059,0.054,0.054,0.06,0.072,0.073,0.084,0.101,0.102,0.131,0.121,0.195,0.19,0.28,0.266,0.496,0.641,0.469,0.836,0.0,0.0,0.0,0.0,
+     0.103,0.104,0.094,0.06,0.055,0.056,0.067,0.06,0.074,0.091,0.086,0.088,0.101,0.114,0.14,0.153,0.212,0.253,0.263,0.356,0.345,0.796,0.671,2.905,0.0,0.0,0.0,0.0,
+     0.14,0.091,0.074,0.068,0.057,0.059,0.058,0.059,0.077,0.084,0.09,0.107,0.122,0.115,0.138,0.136,0.234,0.187,0.401,0.251,0.42,1.737,0.714,0.0,0.0,0.0,0.0,0.0},   
+    {
+     0.054,0.046,0.034,0.031,0.029,0.029,0.031,0.029,0.034,0.037,0.041,0.047,0.056,0.052,0.064,0.081,0.112,0.124,0.163,0.183,0.192,0.396,0.378,0.739,0.0,0.0,0.0,0.0,
+     0.076,0.066,0.065,0.05,0.042,0.035,0.037,0.037,0.039, 0.047,0.052,0.057,0.065,0.066,0.075,0.095,0.148,0.192,0.223,0.247,0.237,0.356,0.448,1.038,0.0,0.0,0.0,0.0,
+     0.098,0.087,0.093,0.046,0.042,0.046,0.045,0.047,0.051,0.056,0.057,0.072,0.079,0.081,0.096,0.115,0.161,0.167,0.23,0.281,0.343,0.632,0.55,0.0,0.0,0.0,0.0,0.0,
+     0.123,0.089,0.064,0.065,0.05,0.051,0.054,0.058,0.062,0.068,0.076,0.094,0.097,0.097,0.112,0.116,0.169,0.227,0.305,0.257,0.309,0.816,0.628,1.12,0.0,0.0,0.0,0.0}};
+   
+  double  RAA_dAu_SYS_FRAC_ERR[2][4][28] = {
+    {
+     0.049,0.053,0.058,0.062,0.065,0.069,0.069,0.073,0.073,0.086,0.085,0.086,0.085,0.075,0.097,0.078,0.086,0.084,0.127,0.106,0.082,0.082,0.128,0.146,0.0,0.0,0.0,0.0,
+     0.049,0.042,0.057,0.064,0.068,0.060,0.07,0.069,0.073,0.08,0.076,0.078,0.08,0.076,0.085,0.066,0.095,0.075,0.097,0.072,0.103,0.083,0.055,0.07,0.0,0.0,0.0,0.0,
+     0.066,0.061,0.069,0.063,0.067,0.064,0.067,0.07,0.07,0.08,0.085,0.071,0.072,0.077,0.08,0.078,0.091,0.099,0.075,0.096,0.069,0.094,0.09,0.291,0.0,0.0,0.0,0.0,
+     0.057,0.058,0.064,0.066,0.065,0.066,0.068,0.061,0.075,0.074,0.072,0.081,0.078,0.063,0.064,0.056,0.088,0.044,0.127,0.049,0.083,0.219,0.078,0.031,0.0,0.0,0.0,0.0},
+     {
+     0.042,0.042,0.042,0.042,0.042,0.044,0.047,0.044,0.052,0.051,0.052,0.053,0.061,0.047,0.053,0.058,0.069,0.062,0.071,0.07,0.055,0.075,0.073,0.075,0.0,0.0,0.0,0.0,
+     0.049,0.056,0.051,0.052,0.049,0.048,0.053,0.052,0.053,0.061,0.062,0.062,0.063,0.054,0.056,0.061,0.089,0.094,0.096,0.091,0.065,0.072,0.083,0.115,0.0,0.0,0.0,0.0,
+     0.067,0.055,0.061,0.058,0.06,0.064,0.068,0.064,0.064,0.064,0.058,0.069,0.068,0.06,0.066,0.065,0.083,0.068,0.081,0.094,0.084,0.107,0.095,0.057,0.0,0.0,0.0,0.0,
+     0.078,0.083,0.072,0.065,0.064,0.059,0.076,0.072,0.064,0.07,0.072,0.085,0.075,0.066,0.067,0.055,0.074,0.092,0.111,0.068,0.069,0.122,0.103,0.116,0.0,0.0,0.0,0.0}};
+    
+
 	TGraphErrors *gr_pAu[ncentbin_pAu][narm];
 	TGraphErrors *gr_pAl[ncentbin_pAl][narm];
 	TGraphErrors *gr_HeAu[ncentbin_HeAu][narm];
+	TGraphErrors *gr_dAu[ncentbin_dAu][narm];
 
 	TGraphErrors *gr_pAu_sys[ncentbin_pAu][narm];
 	TGraphErrors *gr_pAl_sys[ncentbin_pAl][narm];
 	TGraphErrors *gr_HeAu_sys[ncentbin_HeAu][narm];
+	TGraphErrors *gr_dAu_sys[ncentbin_dAu][narm];
 
 	//plot arrays
 	double pt_array_pAu[nptbin_pAu] =  {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.625,2.875,3.125,3.375,3.625,3.875,4.25,4.75,6.0};
-	double pt_array_pAl[nptbin_pAl] =  {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.625,2.875,3.125,3.375,3.625,3.875};
-	double pt_array_HeAu[nptbin_HeAu] = {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.75,3.25,3.75};
+	double pt_array_pAl[nptbin_pAl] =  {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.625,2.875,3.125,3.375,3.625,3.875,4.5,6.0};
+	double pt_array_HeAu[nptbin_HeAu] = {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.75,3.25,3.75,4.5,6.0};
+	double pt_array_dAu[nptbin_dAu] = {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.625,2.875,3.125,3.375,3.625,3.875,4.125,4.375,4.625,4.875,5.25,5.75,6.50};
+
+	for (int icent=0; icent<ncentbin_dAu; icent++){
+		for (int iarm=0; iarm<narm; iarm++){
+			gr_dAu[icent][iarm] = new TGraphErrors;
+			gr_dAu[icent][iarm]->SetMarkerStyle(20+4*iarm);
+			gr_dAu[icent][iarm]->SetMarkerColor(iarm+1);
+			gr_dAu[icent][iarm]->SetMarkerSize(0.8);
+			gr_dAu[icent][iarm]->SetLineColor(iarm+1);
+
+			gr_dAu_sys[icent][iarm] = new TGraphErrors;
+			gr_dAu_sys[icent][iarm]->SetMarkerStyle(20+4*iarm);
+			gr_dAu_sys[icent][iarm]->SetMarkerColor(iarm+1);
+			gr_dAu_sys[icent][iarm]->SetMarkerSize(0.8);
+			gr_dAu_sys[icent][iarm]->SetLineColor(iarm+1);
+			gr_dAu_sys[icent][iarm]->SetFillStyle(0);
+
+			for (int ipt=0; ipt<nptbin_dAu; ipt++){
+				double xx = pt_array_dAu[ipt];
+				double yy = RAA_dAu[iarm][icent][ipt];
+				double yy_err = RAA_dAu_ERR[iarm][icent][ipt];
+				double yy_syserr = yy*RAA_dAu_SYS_FRAC_ERR[iarm][icent][ipt];
+				gr_dAu[icent][iarm]->SetPoint(ipt, pt_array_dAu[ipt], yy);
+				gr_dAu[icent][iarm]->SetPointError(ipt, 0, yy_err);
+
+				gr_dAu_sys[icent][iarm]->SetPoint(ipt, pt_array_dAu[ipt], yy);
+				gr_dAu_sys[icent][iarm]->SetPointError(ipt, 0.25/2, yy_syserr);
+			}//ipt
+		}//iarm
+	}//icent
 
 	for (int icent=0; icent<ncentbin_pAu; icent++){
 		for (int iarm=0; iarm<narm; iarm++){
@@ -212,13 +290,13 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.00);
 		gPad->SetLeftMargin(0.14);
 		gPad->SetBottomMargin(0.16);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,7.5,2.5);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",20,18);
 		htmp->GetYaxis()->SetTitleOffset(2.0);
 		htmp->GetXaxis()->SetTitleOffset(2.2);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
+			TLegend *leg = new TLegend(0.15,0.7,0.6,0.9);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","h");
@@ -226,7 +304,7 @@ void Draw_RAB_pT_all()
 			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_pAu_min[icent],'%',cent_per_pAu_max[icent],'%'),"h");
 			leg->Draw();
 
-			TLine *line = new TLine(0, 1, 9.8, 1);
+			TLine *line = new TLine(0, 1, 8, 1);
 			line->SetLineStyle(2);
 			line->Draw();
 
@@ -238,7 +316,7 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.78,0.95,0.93);
+			TLegend *leg = new TLegend(0.65,0.75,0.95,0.9);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			leg->AddEntry(gr_pAu[icent][0],"-2.2<y<-1.2","p");
@@ -257,7 +335,7 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.14);
 		gPad->SetBottomMargin(0.16);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,7.5,2.5);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",28,24);
 		htmp->GetYaxis()->SetTitleOffset(0.8);
 		htmp->GetXaxis()->SetTitleOffset(0.95);
@@ -267,51 +345,41 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.17,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.17,0.72,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","p+Au #sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(28);
+			leg->SetTextSize(24);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(28);
-			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_pAu_min[icent],'%',cent_per_pAu_max[icent],'%'),"h");
-			le->SetTextSize(28);
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 
-			TLine *line = new TLine(0, 1, 7.5, 1);
+			TLine *line = new TLine(0, 1, 8, 1);
 			line->SetLineStyle(2);
 			line->Draw();
 
 			float global_sys = sqrt(Ncoll_pAu_sys[icent]*Ncoll_pAu_sys[icent] + BiasF_pAu_sys[icent]*BiasF_pAu_sys[icent] + 0.101*0.101);
-			TBox *box = new TBox(7.2,1-global_sys,7.5,1+global_sys);
+			TBox *box = new TBox(7.7,1-global_sys,8.0,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(1,0.5);
 			box->Draw();
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.68,0.93,0.93);
+			TLegend *leg = new TLegend(0.65,0.72,0.95,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			le = leg->AddEntry("",Form("%d%c-%d%c, p+Au",cent_per_pAu_min[icent],'%',cent_per_pAu_max[icent],'%'),"h");
 			le = leg->AddEntry(gr_pAu[icent][0],"-2.2<y<-1.2","p");
-			le->SetTextSize(28);
 			le = leg->AddEntry(gr_pAu[icent][1],"1.2<y<2.2","p");
-			le->SetTextSize(28);
-			le = leg->AddEntry("","","");
 			leg->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(6.8, 1.6, Form("(%c)",97+count));
+			TLatex *tex = new TLatex(7.2, 1.5, Form("(%c)",97+count));
 			tex->SetTextFont(43);
-			tex->SetTextSize(28);
-			tex->Draw();
-		}
-
-		{
-			TLatex *tex = new TLatex(5.7, 0.2, "PHENIX");
-			tex->SetTextFont(43);
-			tex->SetTextSize(28);
+			tex->SetTextSize(24);
 			tex->Draw();
 		}
 
@@ -338,12 +406,13 @@ void Draw_RAB_pT_all()
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
+			TLegend *leg = new TLegend(0.17,0.72,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","p+Al #sqrt{s_{NN}}=200 GeV","h");
+			leg->SetTextSize(24);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_pAl_min[icent],'%',cent_per_pAl_max[icent],'%'),"h");
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 
 			TLine *line = new TLine(0, 1, 9.8, 1);
@@ -358,11 +427,13 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.78,0.95,0.93);
+			TLegend *leg = new TLegend(0.65,0.72,0.95,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			leg->AddEntry(gr_pAl[icent][0],"-2.2<y<-1.2","p");
-			leg->AddEntry(gr_pAl[icent][1],"1.2<y<2.2","p");
+			leg->SetTextSize(24);
+			le = leg->AddEntry("",Form("%d%c-%d%c, p+Al",cent_per_pAl_min[icent],'%',cent_per_pAl_max[icent],'%'),"h");
+			le = leg->AddEntry(gr_pAu[icent][0],"-2.2<y<-1.2","p");
+			le = leg->AddEntry(gr_pAu[icent][1],"1.2<y<2.2","p");
 			leg->Draw();
 		}
 
@@ -377,7 +448,7 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.14);
 		gPad->SetBottomMargin(0.16);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,5,2.5);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",28,24);
 		htmp->GetYaxis()->SetTitleOffset(0.8);
 		htmp->GetXaxis()->SetTitleOffset(0.95);
@@ -387,55 +458,47 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.17,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.17,0.72,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","p+Al #sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(28);
+			leg->SetTextSize(24);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(28);
-			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_pAl_min[icent],'%',cent_per_pAl_max[icent],'%'),"h");
-			le->SetTextSize(28);
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 
-			TLine *line = new TLine(0, 1, 5, 1);
+			TLine *line = new TLine(0, 1, 8, 1);
 			line->SetLineStyle(2);
 			line->Draw();
 
 			float global_sys = sqrt(Ncoll_pAl_sys[icent]*Ncoll_pAl_sys[icent] + BiasF_pAl_sys[icent]*BiasF_pAl_sys[icent] + 0.101*0.101);
-			TBox *box = new TBox(4.8,1-global_sys,5.0,1+global_sys);
+			TBox *box = new TBox(7.7,1-global_sys,8.0,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(1,0.5);
 			box->Draw();
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.68,0.93,0.93);
+			TLegend *leg = new TLegend(0.65,0.72,0.95,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry(gr_pAl[icent][0],"-2.2<y<-1.2","p");
-			le->SetTextSize(28);
-			le = leg->AddEntry(gr_pAl[icent][1],"1.2<y<2.2","p");
-			le->SetTextSize(28);
-			le = leg->AddEntry("","","");
+			leg->SetTextSize(24);
+			le = leg->AddEntry("",Form("%d%c-%d%c, p+Al",cent_per_pAl_min[icent],'%',cent_per_pAl_max[icent],'%'),"h");
+			le = leg->AddEntry(gr_pAu[icent][0],"-2.2<y<-1.2","p");
+			le = leg->AddEntry(gr_pAu[icent][1],"1.2<y<2.2","p");
 			leg->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(4.5, 1.6, Form("(%c)",97+icent));
+			TLatex *tex = new TLatex(7.2, 1.5, Form("(%c)",97+icent));
 			tex->SetTextFont(43);
-			tex->SetTextSize(28);
+			tex->SetTextSize(24);
 			tex->Draw();
 		}
 
-		{
-			TLatex *tex = new TLatex(3.8, 0.2, "PHENIX");
-			tex->SetTextFont(43);
-			tex->SetTextSize(28);
-			tex->Draw();
-		}
 	}
 
+	//return;
 
 	TCanvas *c02 = new TCanvas("c02","c02",1.3*3*300,1*300);
 	c02->Divide(3,1);
@@ -454,7 +517,7 @@ void Draw_RAB_pT_all()
 		htmp->GetXaxis()->SetTitleOffset(1.0);
 
 		{
-			TLegend *leg = new TLegend(0.20,0.73,0.6,0.93);
+			TLegend *leg = new TLegend(0.15,0.7,0.6,0.9);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
@@ -474,7 +537,7 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.78,0.95,0.93);
+			TLegend *leg = new TLegend(0.65,0.75,0.95,0.9);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
 			leg->AddEntry(gr_HeAu[icent][0],"-2.2<y<-1.2","p");
@@ -493,7 +556,7 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.14);
 		gPad->SetBottomMargin(0.16);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,5,2.5);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
 		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",28,24);
 		htmp->GetYaxis()->SetTitleOffset(0.8);
 		htmp->GetXaxis()->SetTitleOffset(0.95);
@@ -503,57 +566,51 @@ void Draw_RAB_pT_all()
 		}
 
 		{
-			TLegend *leg = new TLegend(0.17,0.68,0.6,0.93);
+			TLegend *leg = new TLegend(0.17,0.72,0.6,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry("","^{3}He+Au #sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(28);
+			leg->SetTextSize(24);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(28);
-			le = leg->AddEntry("",Form("%d%c-%d%c",cent_per_HeAu_min[icent],'%',cent_per_HeAu_max[icent],'%'),"h");
-			le->SetTextSize(28);
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 
-			TLine *line = new TLine(0, 1, 5, 1);
+			TLine *line = new TLine(0, 1, 8, 1);
 			line->SetLineStyle(2);
 			line->Draw();
 
 			float global_sys = sqrt(Ncoll_HeAu_sys[icent]*Ncoll_HeAu_sys[icent] + BiasF_pAl_sys[icent]*BiasF_HeAu_sys[icent] + 0.101*0.101);
-			TBox *box = new TBox(4.8,1-global_sys,5.0,1+global_sys);
+			TBox *box = new TBox(7.7,1-global_sys,8.0,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(1,0.5);
 			box->Draw();
 		}
 
 		{
-			TLegend *leg = new TLegend(0.65,0.68,0.93,0.93);
+			TLegend *leg = new TLegend(0.5,0.72,0.8,0.93);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry(gr_pAl[icent][0],"-2.2<y<-1.2","p");
-			le->SetTextSize(28);
-			le = leg->AddEntry(gr_pAl[icent][1],"1.2<y<2.2","p");
-			le->SetTextSize(28);
-			le = leg->AddEntry("","","");
+			leg->SetTextSize(24);
+			le = leg->AddEntry("",Form("%d%c-%d%c, ^{3}He+Au",cent_per_pAu_min[icent],'%',cent_per_pAu_max[icent],'%'),"h");
+			le = leg->AddEntry(gr_pAu[icent][0],"-2.2<y<-1.2","p");
+			le = leg->AddEntry(gr_pAu[icent][1],"1.2<y<2.2","p");
 			leg->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(4.5, 1.6, Form("(%c)",97+icent));
+			TLatex *tex = new TLatex(7.2, 1.5, Form("(%c)",97+icent));
 			tex->SetTextFont(43);
-			tex->SetTextSize(28);
+			tex->SetTextSize(24);
 			tex->Draw();
 		}
 
-		{
-			TLatex *tex = new TLatex(3.8, 0.2, "PHENIX");
-			tex->SetTextFont(43);
-			tex->SetTextSize(28);
-			tex->Draw();
-		}
 	}
+
+	//return;
 
 	TCanvas *c0002[narm];
 	TCanvas *c0003[narm];
+	TCanvas *c1003[narm];
 
 	for (int iarm=0; iarm<narm; iarm++){
 		c0002[iarm] = new TCanvas(Form("c0002_%d",iarm),Form("c0002_%d",iarm),1.4*400,400);
@@ -563,12 +620,12 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.12);
 		gPad->SetBottomMargin(0.15);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,7.5,2.5);
-		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",24,20);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
+		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",26,22);
 		htmp->GetYaxis()->SetTitleOffset(0.8);
-		htmp->GetXaxis()->SetTitleOffset(1.0);
+		htmp->GetXaxis()->SetTitleOffset(0.9);
 
-		TLine *line = new TLine(0, 1, 7.5, 1);
+		TLine *line = new TLine(0, 1, 8, 1);
 		line->SetLineStyle(2);
 		line->Draw();
 
@@ -602,27 +659,19 @@ void Draw_RAB_pT_all()
 		gr_pAu_cp->Draw("p");
 
 		{
-			TLegend *leg = new TLegend(0.15,0.68,0.6,0.92);
+			TLegend *leg = new TLegend(0.15,0.71,0.6,0.92);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
+			leg->SetTextSize(22);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(20);
-			if ( iarm==0 ){
-				le = leg->AddEntry("","-2.2<y<-1.2","h");
-			}else{
-				le = leg->AddEntry("","1.2<y<2.2","h");
-			}
-			le->SetTextSize(20);
 			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(20);
-			le = leg->AddEntry("","0%-20%","h");
-			le->SetTextSize(20);
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 		}
 
 		{
 			float global_sys = sqrt(Ncoll_pAu_sys[3]*Ncoll_pAu_sys[3] + BiasF_pAu_sys[3]*BiasF_pAu_sys[3] + 0.101*0.101);
-			TBox *box = new TBox(7.3,1-global_sys,7.5,1+global_sys);
+			TBox *box = new TBox(7.8,1-global_sys,8.0,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(kGreen+2,0.5);
 			box->Draw();
@@ -630,36 +679,31 @@ void Draw_RAB_pT_all()
 
 		{
 			float global_sys = sqrt(Ncoll_pAl_sys[0]*Ncoll_pAl_sys[0] + BiasF_pAl_sys[0]*BiasF_pAl_sys[0] + 0.101*0.101);
-			TBox *box = new TBox(7.1,1-global_sys,7.3,1+global_sys);
+			TBox *box = new TBox(7.6,1-global_sys,7.8,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(2,0.5);
 			box->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(7,2.25,Form("(%c)",97+iarm));
-			tex->SetTextSize(20);
+			TLatex *tex = new TLatex(7.2,1.5,Form("(%c)",97+iarm));
+			tex->SetTextSize(22);
 			tex->SetTextFont(43);
 			tex->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(6,0.15,"PHENIX");
-			tex->SetTextSize(20);
-			tex->SetTextFont(43);
-			tex->Draw();
-		}
-
-		{
-			TLegend *leg = new TLegend(0.7,0.68,0.8,0.92);
+			TLegend *leg = new TLegend(0.6,0.71,0.8,0.92);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry(gr_pAl_cp,"p+Al","p");
-			le->SetTextSize(20);
-			le = leg->AddEntry(gr_pAu_cp,"p+Au","p");
-			le->SetTextSize(20);
-			le = leg->AddEntry(""," ","");
-			le = leg->AddEntry(""," ","");
+			leg->SetTextSize(24);
+			if ( iarm==0 ){
+				le = leg->AddEntry("","-2.2<y<-1.2","h");
+			}else{
+				le = leg->AddEntry("","1.2<y<2.2","h");
+			}
+			le = leg->AddEntry(gr_pAl_cp,"0%-20%, p+Al","p");
+			le = leg->AddEntry(gr_pAu_cp,"0%-20%, p+Au","p");
 			leg->Draw();
 		}
 
@@ -673,12 +717,12 @@ void Draw_RAB_pT_all()
 		gPad->SetRightMargin(0.015);
 		gPad->SetLeftMargin(0.12);
 		gPad->SetBottomMargin(0.15);
-		htmp = (TH1F*)gPad->DrawFrame(0,0,7.5,2.5);
-		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",24,20);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8,2.5);
+		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",26,22);
 		htmp->GetYaxis()->SetTitleOffset(0.8);
-		htmp->GetXaxis()->SetTitleOffset(1.0);
+		htmp->GetXaxis()->SetTitleOffset(0.9);
 
-		TLine *line = new TLine(0, 1, 7.5, 1);
+		TLine *line = new TLine(0, 1, 8, 1);
 		line->SetLineStyle(2);
 		line->Draw();
 
@@ -712,27 +756,19 @@ void Draw_RAB_pT_all()
 		gr_pAu_cp->Draw("p");
 
 		{
-			TLegend *leg = new TLegend(0.15,0.68,0.6,0.92);
+			TLegend *leg = new TLegend(0.15,0.71,0.6,0.92);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
+			leg->SetTextSize(22);
 			le = leg->AddEntry("","Inclusive J/#psi","h");
-			le->SetTextSize(20);
-			if ( iarm==0 ){
-				le = leg->AddEntry("","-2.2<y<-1.2","h");
-			}else{
-				le = leg->AddEntry("","1.2<y<2.2","h");
-			}
-			le->SetTextSize(20);
 			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
-			le->SetTextSize(20);
-			le = leg->AddEntry("","0%-20%","h");
-			le->SetTextSize(20);
+			le = leg->AddEntry("","PHENIX","h");
 			leg->Draw();
 		}
 
 		{
 			float global_sys = sqrt(Ncoll_pAu_sys[3]*Ncoll_pAu_sys[3] + BiasF_pAu_sys[3]*BiasF_pAu_sys[3] + 0.101*0.101);
-			TBox *box = new TBox(7.3,1-global_sys,7.5,1+global_sys);
+			TBox *box = new TBox(7.8,1-global_sys,8.0,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(kGreen+2,0.5);
 			box->Draw();
@@ -740,40 +776,139 @@ void Draw_RAB_pT_all()
 
 		{
 			float global_sys = sqrt(Ncoll_HeAu_sys[0]*Ncoll_HeAu_sys[0] + BiasF_HeAu_sys[0]*BiasF_HeAu_sys[0] + 0.101*0.101);
-			TBox *box = new TBox(7.1,1-global_sys,7.3,1+global_sys);
+			TBox *box = new TBox(7.6,1-global_sys,7.8,1+global_sys);
 			box->SetFillStyle(1000);
 			box->SetFillColorAlpha(6,0.5);
 			box->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(7,2.25,Form("(%c)",97+iarm));
-			tex->SetTextSize(20);
+			TLatex *tex = new TLatex(7.2,2.25,Form("(%c)",97+iarm));
+			tex->SetTextSize(22);
 			tex->SetTextFont(43);
 			tex->Draw();
 		}
 
 		{
-			TLatex *tex = new TLatex(6,0.15,"PHENIX");
-			tex->SetTextSize(20);
-			tex->SetTextFont(43);
-			tex->Draw();
-		}
-
-		{
-			TLegend *leg = new TLegend(0.7,0.68,0.8,0.92);
+			TLegend *leg = new TLegend(0.6,0.71,0.8,0.92);
 			leg->SetFillStyle(0);
 			leg->SetBorderSize(0);
-			le = leg->AddEntry(gr_pAu_cp,"p+Au","p");
-			le->SetTextSize(20);
-			le = leg->AddEntry(gr_HeAu_cp,"^{3}He+Au","p");
-			le->SetTextSize(20);
-			le = leg->AddEntry(""," ","");
-			le = leg->AddEntry(""," ","");
+			leg->SetTextSize(24);
+			if ( iarm==0 ){
+				le = leg->AddEntry("","-2.2<y<-1.2","h");
+			}else{
+				le = leg->AddEntry("","1.2<y<2.2","h");
+			}
+			le = leg->AddEntry(gr_pAu_cp,"0%-20%, p+Au","p");
+			le = leg->AddEntry(gr_HeAu_cp,"0%-20%, ^{3}He+Au","p");
 			leg->Draw();
 		}
 
 	}//iarm
+
+	// pAu with dAu
+	for (int iarm=0; iarm<narm; iarm++){
+		c1003[iarm] = new TCanvas(Form("c1003_%d",iarm),Form("c1003_%d",iarm),1.4*400,400);
+		c1003[iarm]->cd(iarm+1);
+		SetPadStyle();
+		gPad->SetTopMargin(0.05);
+		gPad->SetRightMargin(0.015);
+		gPad->SetLeftMargin(0.12);
+		gPad->SetBottomMargin(0.15);
+		htmp = (TH1F*)gPad->DrawFrame(0,0,8.0,2.5);
+		SetHistoStyle("p_{T} (GeV/c)","R_{AB}","",24,20);
+		htmp->GetYaxis()->SetTitleOffset(0.8);
+		htmp->GetXaxis()->SetTitleOffset(1.0);
+
+		TLine *line = new TLine(0, 1, 8.0, 1);
+		line->SetLineStyle(2);
+		line->Draw();
+
+		TGraphErrors *gr_pAu_sys_cp = new TGraphErrors(*gr_pAu_sys[3][iarm]);
+		gr_pAu_sys_cp->SetName(Form("gr_pAu_sys_cp_arm%d",iarm));
+		gr_pAu_sys_cp->SetMarkerStyle(20+iarm);
+		gr_pAu_sys_cp->SetMarkerColor(kGreen+2);
+		gr_pAu_sys_cp->SetLineColor(kGreen+2);
+
+		TGraphErrors *gr_pAu_cp = new TGraphErrors(*gr_pAu[3][iarm]);
+		gr_pAu_cp->SetName(Form("gr_pAu_cp_arm%d",iarm));
+		gr_pAu_cp->SetMarkerStyle(20+iarm);
+		gr_pAu_cp->SetMarkerColor(kGreen+2);
+		gr_pAu_cp->SetLineColor(kGreen+2);
+
+		TGraphErrors *gr_dAu_sys_cp = new TGraphErrors(*gr_dAu_sys[0][iarm]);
+		gr_dAu_sys_cp->SetName(Form("gr_dAu_sys_cp_arm%d",iarm));
+		gr_dAu_sys_cp->SetMarkerStyle(24+iarm);
+		gr_dAu_sys_cp->SetMarkerColor(kBlue+2);
+		gr_dAu_sys_cp->SetLineColor(kBlue+2);
+
+		TGraphErrors *gr_dAu_cp = new TGraphErrors(*gr_dAu[0][iarm]);
+		gr_dAu_cp->SetName(Form("gr_dAu_cp_arm%d",iarm));
+		gr_dAu_cp->SetMarkerStyle(24+iarm);
+		gr_dAu_cp->SetMarkerColor(kBlue+2);
+		gr_dAu_cp->SetLineColor(kBlue+2);
+
+		gr_pAu_sys_cp->Draw("2");
+		gr_dAu_sys_cp->Draw("2");
+		gr_pAu_cp->Draw("p");
+		gr_dAu_cp->Draw("p");
+
+		{
+			TLegend *leg = new TLegend(0.15,0.71,0.6,0.92);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(22);
+			le = leg->AddEntry("","Inclusive J/#psi","h");
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+		}
+
+		{
+			float global_sys = sqrt(Ncoll_pAu_sys[3]*Ncoll_pAu_sys[3] + BiasF_pAu_sys[3]*BiasF_pAu_sys[3] + 0.101*0.101);
+			TBox *box = new TBox(7.8,1-global_sys,8,1+global_sys);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(kGreen+2,0.5);
+			box->Draw();
+		}
+
+		{
+			float global_sys = sqrt(Ncoll_dAu_sys[0]*Ncoll_dAu_sys[0] + BiasF_dAu_sys[0]*BiasF_dAu_sys[0] + 0.101*0.101);
+			TBox *box = new TBox(7.6,1-global_sys,7.8,1+global_sys);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(kBlue+2,0.5);
+			box->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(7.2,1.5,Form("(%c)",97+iarm));
+			tex->SetTextSize(22);
+			tex->SetTextFont(43);
+			tex->Draw();
+		}
+
+		{
+			TLegend *leg;
+			if ( iarm==1 ){
+				leg = new TLegend(0.6,0.71,0.8,0.92);
+			}else{
+				leg = new TLegend(0.6,0.17,0.8,0.38);
+			}
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			if ( iarm==0 ){
+				le = leg->AddEntry("","-2.2<y<-1.2","h");
+			}else{
+				le = leg->AddEntry("","1.2<y<2.2","h");
+			}
+			le = leg->AddEntry(gr_pAu_cp,"0%-20%, p+Au","p");
+			le = leg->AddEntry(gr_dAu_cp,"0%-20%, d+Au","p");
+			leg->Draw();
+		}
+
+	}//iarm
+
 
 	//return;
 
@@ -809,6 +944,9 @@ void Draw_RAB_pT_all()
 
 			c0003[iarm]->cd();
 			c0003[iarm]->SaveAs(Form("pdf/fig_RAB_pT_pAu_HeAu_0020_arm%d.pdf",iarm));
+
+			c1003[iarm]->cd();
+			c1003[iarm]->SaveAs(Form("pdf/fig_RAB_pT_pAu_dAu_0020_arm%d.pdf",iarm));
 		}//iarm
 	}
 
