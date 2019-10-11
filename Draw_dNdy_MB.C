@@ -1012,18 +1012,20 @@ void Draw_dNdy_MB(){
 
 	// pAl
 
-	// EPPS16
-	double mod_pal_bu_only[4] = {0.864, 0.883, 0.900, 0.915};
+	// EPPS16 
+	double mod_pal_bu_only[4] = {0.864, 0.883, 0.900, 0.915};  // using rT values from PHENIX Glauber
 	double mod_pal_bu_only_err[4] = {0.008, 0.008, 0.008, 0.007}; 
 
 	TGraph *gbu_pAl = new TGraph(4,rap_pp, mod_pal_bu_only);
 	gbu_pAl->SetLineColor(kRed);
 	gbu_pAl->SetLineWidth(5.0);
 
+
 	double x, y;
 	double ex[4] = {0,0,0,0};
 	double x_new[4], y_new[4], y_new_up[4], y_new_dn[4];
 	int N = gth_epps_pAl[0]->GetN();
+	cout << " N Shao " << N << endl;
 	for(int i=0;i<N; ++i)
 	  {
 	    int val = gth_epps_pAl[0]->GetPoint(i, x, y);
@@ -1033,14 +1035,56 @@ void Draw_dNdy_MB(){
 					   + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
-
 	    cout << " i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_epps_pAl_new->SetFillColorAlpha(kGreen+1,0.3);
 	gbu_epps_pAl_new->SetLineColor(0);
+
+	// Vogt EPPS16
+
+	int N1 = gth1_epps_pAl[0]->GetN();
+	cout << " N Vogt " << N1 << endl;
+	double x1[3], y1[3], y1_new[3], y1_new_up[3], y1_new_dn[3];
+	double y1_abs[3], y1_abs_err[3];
+	for(int i=0;i<N1; ++i)
+	  {
+	    int val = gth1_epps_pAl[0]->GetPoint(i, x, y);
+	    x1[i] = x;
+	    y1[i] = y;
+	    
+	    cout << " i " << i << " x1 " << x1[i] << " y " << y1[i] << endl;
+	  }
+	
+	y1_abs[0] = mod_pal_bu_only[0] - (mod_pal_bu_only[1] - mod_pal_bu_only[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+	y1_abs_err[0] = mod_pal_bu_only_err[0] - (mod_pal_bu_only_err[1] - mod_pal_bu_only_err[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+
+	y1_abs[1] = mod_pal_bu_only[1] + (mod_pal_bu_only[2] - mod_pal_bu_only[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+	y1_abs_err[1] = mod_pal_bu_only_err[1] + (mod_pal_bu_only_err[2] - mod_pal_bu_only_err[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+
+	y1_abs[2] = mod_pal_bu_only[3] + (mod_pal_bu_only[3] - mod_pal_bu_only[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+	y1_abs_err[2] = mod_pal_bu_only_err[3] + (mod_pal_bu_only_err[3] - mod_pal_bu_only_err[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+
+	for(int i=0;i<N;++i)
+	  {
+	    cout << " i " << i << " x_new " << x_new[i] << " mod_pal_bu_only " << mod_pal_bu_only[i] << endl; 
+	  }
+	for(int i=0;i<N1;++i)
+	  {
+	    cout << " i " << i << " x1 " << x1[i] << " y1_abs " << y1_abs[i] << endl; 
+	    y1_new[i] = y1_abs[i] * y1[i];
+	    y1_new_up[i] = y1_new[i] * sqrt( pow( gth1_epps_pAl[0]->GetErrorYhigh(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+
+	    y1_new_dn[i] = y1_new[i] * sqrt( pow( gth1_epps_pAl[0]->GetErrorYlow(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+	  }
+
+	TGraphAsymmErrors *gbu_pAl_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
+	gbu_pAl_new_vogt->SetFillColorAlpha(kCyan-7, 0.3);
+	gbu_pAl_new_vogt->SetLineColor(0);
 
 	// NCTEQ
 	for(int i=0;i<N; ++i)
@@ -1053,8 +1097,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAl[0]->GetErrorYlow(i) * mod_pal_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pal_bu_only_err[i] / mod_pal_bu_only[i], 2) );
 
-	    cout << "pAl NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "pAl NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1064,9 +1108,8 @@ void Draw_dNdy_MB(){
 
 	// p+Au
 
-	double mod_pau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};
+	double mod_pau_bu_only[4] = {0.572, 0.605, 0.645, 0.686}; // using rT values from PHENIX Glauber
 	double mod_pau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
-	//double mod_pau_bu_only_err[4] = {(1-0.565)/5, (1-0.599)/5, (1-0.639)/5, (1-0.681)/5};
 	TGraph *gbu_pAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_pAu->SetLineColor(kRed);
 	gbu_pAu->SetLineWidth(5.0);
@@ -1083,13 +1126,57 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
 
-	    cout << " pAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << " pAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_epps_pAu_new->SetFillColorAlpha(kGreen+1,0.3);
 	gbu_epps_pAu_new->SetLineColor(0);
+
+	// Vogt EPPS16
+
+	N1 = gth1_epps_pAu[0]->GetN();
+	cout << " N Vogt " << N1 << endl;
+	//double x1[3], y1[3], y1_new[3], y1_new_up[3], y1_new_dn[3];
+	//double y1_abs[3], y1_abs_err[3];
+	for(int i=0;i<N1; ++i)
+	  {
+	    int val = gth1_epps_pAu[0]->GetPoint(i, x, y);
+	    x1[i] = x;
+	    y1[i] = y;
+	    
+	    cout << " i " << i << " x1 " << x1[i] << " y " << y1[i] << endl;
+	  }
+	
+	y1_abs[0] = mod_pau_bu_only[0] - (mod_pau_bu_only[1] - mod_pau_bu_only[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+	y1_abs_err[0] = mod_pau_bu_only_err[0] - (mod_pau_bu_only_err[1] - mod_pau_bu_only_err[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+
+	y1_abs[1] = mod_pau_bu_only[1] + (mod_pau_bu_only[2] - mod_pau_bu_only[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+	y1_abs_err[1] = mod_pau_bu_only_err[1] + (mod_pau_bu_only_err[2] - mod_pau_bu_only_err[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+
+	y1_abs[2] = mod_pau_bu_only[3] + (mod_pau_bu_only[3] - mod_pau_bu_only[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+	y1_abs_err[2] = mod_pau_bu_only_err[3] + (mod_pau_bu_only_err[3] - mod_pau_bu_only_err[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+
+	for(int i=0;i<N;++i)
+	  {
+	    cout << " i " << i << " x_new " << x_new[i] << " mod_pau_bu_only " << mod_pau_bu_only[i] << endl; 
+	  }
+	for(int i=0;i<N1;++i)
+	  {
+	    cout << " i " << i << " x1 " << x1[i] << " y1_abs " << y1_abs[i] << endl; 
+	    y1_new[i] = y1_abs[i] * y1[i];
+	    y1_new_up[i] = y1_new[i] * sqrt( pow( gth1_epps_pAu[0]->GetErrorYhigh(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+
+	    y1_new_dn[i] = y1_new[i] * sqrt( pow( gth1_epps_pAu[0]->GetErrorYlow(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+	  }
+
+	TGraphAsymmErrors *gbu_pAu_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
+	gbu_pAu_new_vogt->SetFillColorAlpha(kCyan-7,0.3);
+	gbu_pAu_new_vogt->SetLineColor(0);
+
 
 	// NCTEQ
 	for(int i=0;i<N; ++i)
@@ -1102,8 +1189,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_pAu[0]->GetErrorYlow(i) * mod_pau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_pau_bu_only_err[i] / mod_pau_bu_only[i], 2) );
 
-	    cout << "pAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "pAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1113,7 +1200,7 @@ void Draw_dNdy_MB(){
 
 	// 3He+Au
 
-	double mod_heau_bu_only[4] = {0.565, 0.599, 0.639, 0.681};  // using p+Au values for now
+	double mod_heau_bu_only[4] = {0.554, 0.588, 0.629, 0.672};  // using correct rT values from PHENIX Glauber
 	double mod_heau_bu_only_err[4] = {0.016, 0.017, 0.018, 0.018};
 	TGraph *gbu_HeAu = new TGraph(4,rap_pp, mod_pau_bu_only);
 	gbu_HeAu->SetLineColor(kRed);
@@ -1131,13 +1218,56 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_epps_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
 
-	    cout << " HeAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << " HeAu i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_epps_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_epps_HeAu_new->SetFillColorAlpha(kGreen+1,0.3);
 	gbu_epps_HeAu_new->SetLineColor(0);
+
+	// Vogt EPPS16
+
+	N1 = gth1_epps_HeAu[0]->GetN();
+	cout << " N Vogt " << N1 << endl;
+	//double x1[3], y1[3], y1_new[3], y1_new_up[3], y1_new_dn[3];
+	//double y1_abs[3], y1_abs_err[3];
+	for(int i=0;i<N1; ++i)
+	  {
+	    int val = gth1_epps_HeAu[0]->GetPoint(i, x, y);
+	    x1[i] = x;
+	    y1[i] = y;
+	    
+	    cout << " i " << i << " x1 " << x1[i] << " y " << y1[i] << endl;
+	  }
+	
+	y1_abs[0] = mod_pau_bu_only[0] - (mod_pau_bu_only[1] - mod_pau_bu_only[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+	y1_abs_err[0] = mod_pau_bu_only_err[0] - (mod_pau_bu_only_err[1] - mod_pau_bu_only_err[0]) / (x_new[1] - x_new[0]) * (x_new[0] - x1[0]);
+
+	y1_abs[1] = mod_pau_bu_only[1] + (mod_pau_bu_only[2] - mod_pau_bu_only[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+	y1_abs_err[1] = mod_pau_bu_only_err[1] + (mod_pau_bu_only_err[2] - mod_pau_bu_only_err[1]) / (x_new[2] - x_new[1]) * (x_new[2] - x1[1]);
+
+	y1_abs[2] = mod_pau_bu_only[3] + (mod_pau_bu_only[3] - mod_pau_bu_only[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+	y1_abs_err[2] = mod_pau_bu_only_err[3] + (mod_pau_bu_only_err[3] - mod_pau_bu_only_err[2]) / (x_new[3] - x_new[2]) * (x1[2] - x_new[3]);
+
+	for(int i=0;i<N;++i)
+	  {
+	    cout << " i " << i << " x_new " << x_new[i] << " mod_pau_bu_only " << mod_pau_bu_only[i] << endl; 
+	  }
+	for(int i=0;i<N1;++i)
+	  {
+	    cout << " i " << i << " x1 " << x1[i] << " y1_abs " << y1_abs[i] << endl; 
+	    y1_new[i] = y1_abs[i] * y1[i];
+	    y1_new_up[i] = y1_new[i] * sqrt( pow( gth1_epps_HeAu[0]->GetErrorYhigh(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+
+	    y1_new_dn[i] = y1_new[i] * sqrt( pow( gth1_epps_HeAu[0]->GetErrorYlow(i) * y1_abs[i] / y1_new[i],2 )  
+					     + pow(y1_abs_err[i] / y1_abs[i], 2) );	    
+	  }
+
+	TGraphAsymmErrors *gbu_HeAu_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
+	gbu_HeAu_new_vogt->SetFillColorAlpha(kCyan-7,0.5);
+	gbu_HeAu_new_vogt->SetLineColor(0);
 
 	// NCTEQ
 	for(int i=0;i<N; ++i)
@@ -1150,8 +1280,8 @@ void Draw_dNdy_MB(){
 	    y_new_dn[i] = y_new[i] * sqrt( pow(gth_ncteq_HeAu[0]->GetErrorYlow(i) * mod_heau_bu_only[i] / y_new[i], 2) 
 					  + pow(mod_heau_bu_only_err[i] / mod_heau_bu_only[i], 2) );
 
-	    cout << "HeAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
-		 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
+	    //cout << "HeAu NCTEQ  i " << i << " x " << x << " y " << y << " y_new " << y_new[i] 
+	    //	 << " Yerr high " << y_new_up[i] << " yerr low " << y_new_dn[i] << endl;
 	  }
 
 	TGraphAsymmErrors *gbu_ncteq_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
@@ -1570,6 +1700,7 @@ void Draw_dNdy_MB(){
 
 	if(draw_breakup_modified)
 	  {
+	    gbu_pAl_new_vogt->Draw("3");
 	    gbu_epps_pAl_new->Draw("3");
 	    gbu_ncteq_pAl_new->Draw("3");
 	  }
@@ -1609,11 +1740,12 @@ void Draw_dNdy_MB(){
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
+		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
 		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
 	}
@@ -1696,6 +1828,7 @@ void Draw_dNdy_MB(){
 
 	if(draw_breakup_modified)
 	  {
+	    gbu_pAu_new_vogt->Draw("3");
 	    gbu_epps_pAu_new->Draw("3");
 	    gbu_ncteq_pAu_new->Draw("3");
 	  }
@@ -1734,11 +1867,12 @@ void Draw_dNdy_MB(){
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
+		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
 		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
 	}
@@ -1812,6 +1946,7 @@ void Draw_dNdy_MB(){
 
 	if(draw_breakup_modified)
 	  {
+	    gbu_HeAu_new_vogt->Draw("3");
 	    gbu_epps_HeAu_new->Draw("3");
 	    gbu_ncteq_HeAu_new->Draw("3");
 	  }
@@ -1844,18 +1979,19 @@ void Draw_dNdy_MB(){
 		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
-		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO, Vogt","f");
 		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
 		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.6,0.17,0.95,0.38);
+		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16+Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
 		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
 		leg->Draw();
 	}
