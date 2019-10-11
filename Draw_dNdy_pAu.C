@@ -4,6 +4,7 @@ void Draw_dNdy_pAu(){
 
 	const bool bWRITE = false;
 	const bool bSAVE = false;
+	const bool draw_breakup = false;
 
 	SetStyle();
 
@@ -501,6 +502,48 @@ void Draw_dNdy_pAu(){
 		}//iarm
 	}//icent
 
+	// Breakup modifications - backward rapidity only
+	// note order is increasing *magnitude* of rapidity
+	double bu_mod_pau[ncent][4] = {
+	  0.600, 0.549, 0.504, 0.469,   // 0-5%
+	  0.615, 0.566, 0.521, 0.486,
+	  0.637, 0.590, 0.546, 0.510,
+	  1.0,1.0,1.0,1.0,    // dummy centrality, will be skipped later
+	  0.664, 0.620, 0.578, 0.543,
+	  0.702, 0.662, 0.623, 0.589,
+	  //	  0.810, 0.783, 0.756, 0.729
+	  0.784, 0.754, 0.723, 0.694
+	};
+
+	double bu_mod_pau_err[ncent][4] = {
+	  0.021,  0.021, 0.019, 0.017,
+	  0.021, 0.021, 0.019, 0.017,
+	  0.020, 0.020, 0.019, 0.017,
+	  0,0,0,0,   // dummy
+	  0.019, 0.019, 0.018, 0.016,
+	  0.017, 0.018, 0.017, 0.016,
+	  0.012, 0.012, 0.012, 0.012
+	};
+
+	TGraphErrors *gbu_mod_pau[ncent];
+	for(int icent=0; icent<ncent; ++icent)
+	  {
+	    gbu_mod_pau[icent] = new TGraphErrors(4, xx[0], bu_mod_pau[icent],xx_err[0], bu_mod_pau_err[icent]);
+	    gbu_mod_pau[icent]->SetFillColorAlpha(kRed, 0.35);
+	    gbu_mod_pau[icent]->SetLineColor(0);
+	  }
+	for(int irap =0; irap<4; ++irap)
+	  cout << " irap " << irap << "  y " << xx[0][irap] << endl;
+
+	/*
+	  Cent: 0 irap 0 cent_sigmod 0.469118,  Cent: 0 irap 1 cent_sigmod 0.503977,  Cent: 0 irap 2 cent_sigmod 0.549325,  Cent: 0 irap 3 cent_sigmod 0.599621
+	  Cent: 1 irap 0 cent_sigmod 0.48566,  Cent: 1 irap 1 cent_sigmod 0.521,  Cent: 1 irap 2 cent_sigmod 0.566197,  Cent: 1 irap 3 cent_sigmod 0.615159
+	  Cent: 2 irap 0 cent_sigmod 0.510644,  Cent: 2 irap 1 cent_sigmod 0.545882,  Cent: 2 irap 2 cent_sigmod 0.589773,  Cent: 2 irap 3 cent_sigmod 0.636654
+	  Cent: 3 irap 0 cent_sigmod 0.54325,  Cent: 3 irap 1 cent_sigmod 0.578241,  Cent: 3 irap 2 cent_sigmod 0.620401,  Cent: 3 irap 3 cent_sigmod 0.664638
+	  Cent: 4 irap 0 cent_sigmod 0.58858,  Cent: 4 irap 1 cent_sigmod 0.622615,  Cent: 4 irap 2 cent_sigmod 0.662023,  Cent: 4 irap 3 cent_sigmod 0.702273
+	  Cent: 5 irap 0 cent_sigmod 0.72934,  Cent: 5 irap 1 cent_sigmod 0.755649,  Cent: 5 irap 2 cent_sigmod 0.783437,  Cent: 5 irap 3 cent_sigmod 0.80996
+	*/
+
 	//return;
 
 	TCanvas *c10 = new TCanvas("c10","c10",1.3*3*300,2*300);
@@ -649,10 +692,30 @@ void Draw_dNdy_pAu(){
 			box->Draw();
 		}
 
+		if(draw_breakup)
+		{
+		  TLegend *leg = new TLegend(0.65,0.70,0.92,0.92);
+		  leg->SetFillStyle(0);
+		  le = leg->AddEntry("","","");
+		  le->SetTextSize(18);
+		  le = leg->AddEntry(gbu_mod_pau[0],"Absorption","f");
+		  le->SetTextSize(18);
+		  leg->Draw();
+		}
+		
 		for (int iarm=0; iarm<narm; iarm++){
 			gR_sys[icent][iarm]->Draw("2");
 			gR[icent][iarm]->Draw("p");
+			if(draw_breakup)
+			  {
+			    if(iarm == 0)
+			      {
+				cout << "Drawing gbu_mod_pau for icent = " << icent << endl; 
+				gbu_mod_pau[icent]->Draw("3");
+			      }
+			  }
 		}
+
 
 		c13[icent] = new TCanvas(Form("c13_%d",icent),Form("c13_%d",icent),1.4*400,400);
 		SetPadStyle();
