@@ -60,6 +60,7 @@ void pAu_HeAu_ratio()
  
   // Type A x error arrays for TGraphs
   double x_errors[19] = {0};
+
   double width[19] = {0};
 
   // Ratio arrays
@@ -68,7 +69,7 @@ void pAu_HeAu_ratio()
   double ratio_020_sys_frac_err[2][15] = {0};
   double ratio_020_sys_err[2][15] = {0};
   
-  // recalculated modified systematic error
+  // recalculated systematic error
   double HeAu_sys_frac_err_modified[2][15] = {
     {0.0729325, 0.0726472, 0.0723786, 0.0721387, 0.0719454, 0.0718148, 0.0717538, 0.0717626, 0.0718281, 0.071922, 0.072071, 0.0722479, 0.0723595, 0.0802155, 0.081682},
     {0.0333082, 0.0333092, 0.0333097, 0.0333094, 0.0333077, 0.0333035, 0.0332975, 0.0332925, 0.033291, 0.0332939, 0.0333029, 0.0333115, 0.033312, 0.037124, 0.0377038}};
@@ -112,11 +113,34 @@ void pAu_HeAu_ratio()
   //Ratio errors to Write to root file
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  TH1F *pAu_HeAu_pT_ratio_020_N = new TH1F("pAu_HeAu_ratio_020_N","pAu_HeAu_ratio_020_N",15, 0, 7);  
-  TH1F *pAu_HeAu_pT_ratio_020_S = new TH1F("pAu_HeAu_ratio_020_S","pAu_HeAu_ratio_020_S",15, 0, 7);  
+ int bins = 15;
+   
+  double bin_array[15];
+  bin_array[0] = 0.0;
+  double pt = 0.0;
   
-  TH1F *pAu_HeAu_pT_ratio_020_N_SYS_FRAC_ERR = new TH1F("pAu_HeAu_ratio_020_N_sys","pAu_HeAu_ratio_020_N_sys",15, 0, 7);  
-  TH1F *pAu_HeAu_pT_ratio_020_S_SYS_FRAC_ERR = new TH1F("pAu_HeAu_ratio_020_S_sys","pAu_HeAu_ratio_020_S_sys",15, 0, 7);
+  double pt_width[15] = {0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.5,0.5,1.0,2.0};
+  for(int i = 0; i < bins;i++)
+    {
+      if(i == 0)
+  	pt += pt_width[i]/2;
+      else
+  	pt += pt_width[i-1]/2 + pt_width[i]/2;
+     
+      if(i > 0)
+  	bin_array[i] = pt - pt_width[i]/2;
+     	
+      cout << bin_array[i] << endl;
+             
+    } 
+
+  bin_array[bins] = pt + pt_width[bins-1]/2;
+
+  TH1F *pAu_HeAu_pT_ratio_020_N = new TH1F("pAu_HeAu_ratio_020_N","pAu_HeAu_ratio_020_N",bins, bin_array);  
+  TH1F *pAu_HeAu_pT_ratio_020_S = new TH1F("pAu_HeAu_ratio_020_S","pAu_HeAu_ratio_020_S",bins, bin_array);  
+  
+  TH1F *pAu_HeAu_pT_ratio_020_N_SYS_FRAC_ERR = new TH1F("pAu_HeAu_ratio_020_N_sys","pAu_HeAu_ratio_020_N_sys",bins, bin_array);  
+  TH1F *pAu_HeAu_pT_ratio_020_S_SYS_FRAC_ERR = new TH1F("pAu_HeAu_ratio_020_S_sys","pAu_HeAu_ratio_020_S_sys",bins, bin_array);
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -275,7 +299,8 @@ for(int arm = 0; arm < 2; arm++)
 	}
     }
 
- int bins = 15;
+
+ 
  double y_errors[15] = {0};
  
  double pt_array_ratio[15] =  {0.125,0.375,0.625,0.875,1.125,1.375,1.625,1.875,2.125,2.375,2.75,3.25,3.75,4.50,6.00};
@@ -350,7 +375,7 @@ for(int arm = 0; arm < 2; arm++)
   // Fill THF1
   for(int i = 0; i < 15; i++)
     {
-      pAu_HeAu_pT_ratio_020_S->SetBinContent(i+1, ratio_020[0][i]); 
+      pAu_HeAu_pT_ratio_020_S->SetBinContent(pt_array_ratio[i], ratio_020[0][i]); 
       pAu_HeAu_pT_ratio_020_S->SetBinError(i+1, ratio_020_err[0][i]);
 
       pAu_HeAu_pT_ratio_020_N->SetBinContent(i+1, ratio_020[1][i]); 
