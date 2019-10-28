@@ -892,41 +892,41 @@ void Draw_dNdy_MB(){
 
 		gR[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA[iarm][0], 0, &rpA_err[iarm][0]);
 		gR[iarm]->SetMarkerStyle(20);
-		gR[iarm]->SetMarkerColor(2);
+		gR[iarm]->SetMarkerColor(1);
 		gR[iarm]->SetLineWidth(1);
-		gR[iarm]->SetLineColor(2);
+		gR[iarm]->SetLineColor(1);
 
 		gR_sys[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA[iarm][0], &xx_err[iarm][0], &rpA_syserr[iarm][0]);
 		gR_sys[iarm]->SetMarkerStyle(20);
-		gR_sys[iarm]->SetMarkerColor(2);
+		gR_sys[iarm]->SetMarkerColor(1);
 		gR_sys[iarm]->SetLineWidth(1);
-		gR_sys[iarm]->SetLineColor(2);
+		gR_sys[iarm]->SetLineColor(1);
 		gR_sys[iarm]->SetFillStyle(0);
 
 		gR_pAu[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA_pAu[iarm][0], 0, &rpA_pAu_err[iarm][0]);
 		gR_pAu[iarm]->SetMarkerStyle(20);
-		gR_pAu[iarm]->SetMarkerColor(kGreen+3);
+		gR_pAu[iarm]->SetMarkerColor(1);
 		gR_pAu[iarm]->SetLineWidth(1);
-		gR_pAu[iarm]->SetLineColor(kGreen+3);
+		gR_pAu[iarm]->SetLineColor(1);
 
 		gR_pAu_sys[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA_pAu[iarm][0], &xx_err[iarm][0], &rpA_pAu_syserr[iarm][0]);
 		gR_pAu_sys[iarm]->SetMarkerStyle(20);
-		gR_pAu_sys[iarm]->SetMarkerColor(kGreen+3);
+		gR_pAu_sys[iarm]->SetMarkerColor(1);
 		gR_pAu_sys[iarm]->SetLineWidth(1);
-		gR_pAu_sys[iarm]->SetLineColor(kGreen+3);
+		gR_pAu_sys[iarm]->SetLineColor(1);
 		gR_pAu_sys[iarm]->SetFillStyle(0);
 
 		gR_HeAu[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA_HeAu[iarm][0], 0, &rpA_HeAu_err[iarm][0]);
 		gR_HeAu[iarm]->SetMarkerStyle(20);
-		gR_HeAu[iarm]->SetMarkerColor(kMagenta+1);
+		gR_HeAu[iarm]->SetMarkerColor(1);
 		gR_HeAu[iarm]->SetLineWidth(1);
-		gR_HeAu[iarm]->SetLineColor(kMagenta+1);
+		gR_HeAu[iarm]->SetLineColor(1);
 
 		gR_HeAu_sys[iarm] = new TGraphErrors(nybin, &xx[iarm][0], &rpA_HeAu[iarm][0], &xx_err[iarm][0], &rpA_HeAu_syserr[iarm][0]);
 		gR_HeAu_sys[iarm]->SetMarkerStyle(20);
-		gR_HeAu_sys[iarm]->SetMarkerColor(kMagenta+1);
+		gR_HeAu_sys[iarm]->SetMarkerColor(1);
 		gR_HeAu_sys[iarm]->SetLineWidth(1);
-		gR_HeAu_sys[iarm]->SetLineColor(kMagenta+1);
+		gR_HeAu_sys[iarm]->SetLineColor(1);
 		gR_HeAu_sys[iarm]->SetFillStyle(0);
 
 	}//iarm
@@ -994,17 +994,17 @@ void Draw_dNdy_MB(){
 		gth_ncteq_pAl[iarm]->SetFillStyle(3344);
 		gth_ncteq_pAl[iarm]->SetLineColor(0);
 
-		gth1_epps_HeAu[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_HeAu[iarm]->SetFillColorAlpha(6,0.5);
 		gth1_epps_HeAu[iarm]->SetLineColor(0);
-		gth1_epps_HeAu[iarm]->SetFillStyle(3001);
+		gth1_epps_HeAu[iarm]->SetFillStyle(3556);
 	
-		gth1_epps_pAu[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_pAu[iarm]->SetFillColorAlpha(6,0.5);
 		gth1_epps_pAu[iarm]->SetLineColor(0);
-		gth1_epps_pAu[iarm]->SetFillStyle(3001);
+		gth1_epps_pAu[iarm]->SetFillStyle(3556);
 	
-		gth1_epps_pAl[iarm]->SetFillColorAlpha(6,0.3);
+		gth1_epps_pAl[iarm]->SetFillColorAlpha(6,0.5);
 		gth1_epps_pAl[iarm]->SetLineColor(0);
-		gth1_epps_pAl[iarm]->SetFillStyle(3001);
+		gth1_epps_pAl[iarm]->SetFillStyle(3556);
 	}
 
 
@@ -1083,7 +1083,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_pAl_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
-	gbu_pAl_new_vogt->SetFillColorAlpha(kCyan-7, 0.3);
+	gbu_pAl_new_vogt->SetFillColorAlpha(kCyan+3, 0.5);
+	gbu_pAl_new_vogt->SetFillStyle(3565);
 	gbu_pAl_new_vogt->SetLineColor(0);
 
 	// NCTEQ
@@ -1103,7 +1104,7 @@ void Draw_dNdy_MB(){
 
 	TGraphAsymmErrors *gbu_ncteq_pAl_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_ncteq_pAl_new->SetFillColorAlpha(2,0.5);
-	gbu_ncteq_pAl_new->SetFillStyle(3005);
+	gbu_ncteq_pAl_new->SetFillStyle(3350);
 	gbu_ncteq_pAl_new->SetLineColor(0);
 
 	// p+Au
@@ -1174,7 +1175,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_pAu_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
-	gbu_pAu_new_vogt->SetFillColorAlpha(kCyan-7,0.3);
+	gbu_pAu_new_vogt->SetFillColorAlpha(kCyan+3,0.5);
+	gbu_pAu_new_vogt->SetFillStyle(3565);
 	gbu_pAu_new_vogt->SetLineColor(0);
 
 
@@ -1195,7 +1197,7 @@ void Draw_dNdy_MB(){
 
 	TGraphAsymmErrors *gbu_ncteq_pAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_ncteq_pAu_new->SetFillColorAlpha(2,0.5);
-	gbu_ncteq_pAu_new->SetFillStyle(3005);
+	gbu_ncteq_pAu_new->SetFillStyle(3350);
 	gbu_ncteq_pAu_new->SetLineColor(0);
 
 	// 3He+Au
@@ -1224,6 +1226,7 @@ void Draw_dNdy_MB(){
 
 	TGraphAsymmErrors *gbu_epps_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_epps_HeAu_new->SetFillColorAlpha(kGreen+1,0.3);
+	//gbu_epps_HeAu_new->SetFillStyle(3350);
 	gbu_epps_HeAu_new->SetLineColor(0);
 
 	// Vogt EPPS16
@@ -1266,7 +1269,8 @@ void Draw_dNdy_MB(){
 	  }
 
 	TGraphAsymmErrors *gbu_HeAu_new_vogt = new TGraphAsymmErrors(3, x1, y1_new, ex, ex, y1_new_dn, y1_new_up);
-	gbu_HeAu_new_vogt->SetFillColorAlpha(kCyan-7,0.5);
+	gbu_HeAu_new_vogt->SetFillColorAlpha(kCyan+3,0.5);
+	gbu_HeAu_new_vogt->SetFillStyle(3565);
 	gbu_HeAu_new_vogt->SetLineColor(0);
 
 	// NCTEQ
@@ -1286,11 +1290,12 @@ void Draw_dNdy_MB(){
 
 	TGraphAsymmErrors *gbu_ncteq_HeAu_new = new TGraphAsymmErrors(4, x_new, y_new, ex, ex, y_new_dn, y_new_up);
 	gbu_ncteq_HeAu_new->SetFillColorAlpha(2,0.5);
-	gbu_ncteq_HeAu_new->SetFillStyle(3005);
+	gbu_ncteq_HeAu_new->SetFillStyle(3350);
 	gbu_ncteq_HeAu_new->SetLineColor(0);
 
 	//Drawing
 
+	/*
 	TCanvas *c10 = new TCanvas("c10","c10",1.3*2*300,2*300);
 	c10->Divide(2,2);
 
@@ -1318,6 +1323,7 @@ void Draw_dNdy_MB(){
 		entry = leg->AddEntry(gy_pp15[0],"p+p","p");
 		leg->Draw();
 	}
+	*/
 
 	TCanvas *c10_1 = new TCanvas("c10_1","c10_1",1.4*400,400);
 	SetPadStyle();
@@ -1363,6 +1369,7 @@ void Draw_dNdy_MB(){
 
 	//return;
 
+	/*
 	c10->cd(2);
 	SetPadStyle();
 	gPad->SetTopMargin(0.08);
@@ -1387,6 +1394,7 @@ void Draw_dNdy_MB(){
 		entry = leg->AddEntry(gy[0],"p+Al/#LTN_{coll}#GT","p");
 		leg->Draw();
 	}
+	*/
 
 	TCanvas *c10_2 = new TCanvas("c10_2","c10_2",1.4*400,400);
 	SetPadStyle();
@@ -1432,6 +1440,7 @@ void Draw_dNdy_MB(){
 
 	//return;
 
+	/*
 	c10->cd(3);
 	SetPadStyle();
 	gPad->SetTopMargin(0.08);
@@ -1456,6 +1465,7 @@ void Draw_dNdy_MB(){
 		entry = leg->AddEntry(gy_pAu[0],"p+Au/#LTN_{coll}#GT","p");
 		leg->Draw();
 	}
+	*/
 
 	TCanvas *c10_3 = new TCanvas("c10_3","c10_3",1.4*400,400);
 	SetPadStyle();
@@ -1501,6 +1511,7 @@ void Draw_dNdy_MB(){
 
 	//return;
 
+	/*
 	c10->cd(4);
 	SetPadStyle();
 	gPad->SetTopMargin(0.08);
@@ -1525,6 +1536,7 @@ void Draw_dNdy_MB(){
 		entry = leg->AddEntry(gy_HeAu[0],"^{3}He+Au/#LTN_{coll}#GT","p");
 		leg->Draw();
 	}
+	*/
 
 	TCanvas *c10_4 = new TCanvas("c10_4","c10_4",1.4*400,400);
 	SetPadStyle();
@@ -1569,6 +1581,7 @@ void Draw_dNdy_MB(){
 	}
 
 
+	/*
 	TCanvas *c1 = new TCanvas("c1","c1",1.3*2*300,2*300);
 	c1->Divide(2,2);
 	c1->cd(3);
@@ -1582,11 +1595,6 @@ void Draw_dNdy_MB(){
 	htmp->GetYaxis()->SetTitleOffset(1.8);
 	htmp->GetXaxis()->SetTitleOffset(1.6);
 
-	TLine *line_rap = new TLine(-3,1,3,1);
-	line_rap->SetLineWidth(2);
-	line_rap->SetLineStyle(2);
-	line_rap->Draw();
-
 	grda_dAu->Draw("p");
 	grda_dAu_sys->Draw("2");
 
@@ -1598,11 +1606,17 @@ void Draw_dNdy_MB(){
 		leg->AddEntry(grda_dAu,"0%-100% d+Au","p");
 		leg->Draw();
 	}
+	*/
+
+	TLine *line_rap = new TLine(-3,1,3,1);
+	line_rap->SetLineWidth(2);
+	line_rap->SetLineStyle(2);
+	line_rap->Draw();
 
 	double global_sys_y_dAu = sqrt(0.1*0.1 + Ncoll_dAu_sys*Ncoll_dAu_sys + BiasF_dAu_sys*BiasF_dAu_sys);
 	TBox *sysbox_y_dAu = new TBox(2.8,1-global_sys_y_dAu,3.0,1+global_sys_y_dAu);
 	sysbox_y_dAu->SetFillStyle(1000);
-	sysbox_y_dAu->SetFillColorAlpha(1,0.5);
+	sysbox_y_dAu->SetFillColorAlpha(1,0.3);
 	sysbox_y_dAu->Draw();
 
 	TCanvas *c1_3 = new TCanvas("c1_3","c1_3",1.4*400,400);
@@ -1638,6 +1652,7 @@ void Draw_dNdy_MB(){
 		tex->Draw();
 	}
 
+	/*
 	c1->cd(1);
 	SetPadStyle();
 	gPad->SetTopMargin(0.03);
@@ -1663,11 +1678,12 @@ void Draw_dNdy_MB(){
 		leg->AddEntry(gR[0],"0%-100% p+Al","p");
 		leg->Draw();
 	}
+	*/
 
 	double global_sys_y_pAl = sqrt(0.1*0.1 + Ncoll_sys*Ncoll_sys + BiasF_sys*BiasF_sys);
 	TBox *sysbox_y_pAl = new TBox(2.8,1-global_sys_y_pAl,3.0,1+global_sys_y_pAl);
 	sysbox_y_pAl->SetFillStyle(1000);
-	sysbox_y_pAl->SetFillColorAlpha(2,0.5);
+	sysbox_y_pAl->SetFillColorAlpha(1,0.3);
 	sysbox_y_pAl->Draw();
 
 	TCanvas *c1_1 = new TCanvas("c1_1","c1_1",1.4*400,400);
@@ -1730,23 +1746,24 @@ void Draw_dNdy_MB(){
 	}
 
 	{
-		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
+		TLegend *leg = new TLegend(0.15,0.15,0.45,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
-		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
-		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
-		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
-		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
-		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
 		leg->Draw();
 	}
 
@@ -1759,6 +1776,7 @@ void Draw_dNdy_MB(){
 
 	//return;
 
+	/*
 	c1->cd(2);
 	SetPadStyle();
 	gPad->SetTopMargin(0.03);
@@ -1784,11 +1802,12 @@ void Draw_dNdy_MB(){
 		leg->AddEntry(gR_pAu[0],"0%-100% p+Au","p");
 		leg->Draw();
 	}
+	*/
 
 	double global_sys_y_pAu = sqrt(0.1*0.1 + Ncoll_pAu_sys*Ncoll_pAu_sys + BiasF_pAu_sys*BiasF_pAu_sys);
 	TBox *sysbox_y_pAu = new TBox(2.8,1-global_sys_y_pAu,3.0,1+global_sys_y_pAu);
 	sysbox_y_pAu->SetFillStyle(1000);
-	sysbox_y_pAu->SetFillColorAlpha(kGreen+3,0.5);
+	sysbox_y_pAu->SetFillColorAlpha(1,0.3);
 	sysbox_y_pAu->Draw();
 
 	TCanvas *c1_2 = new TCanvas("c1_2","c1_2",1.4*400,400);
@@ -1857,23 +1876,24 @@ void Draw_dNdy_MB(){
 	}
 
 	{
-		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
+		TLegend *leg = new TLegend(0.15,0.15,0.45,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
-		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 NLO, Vogt","f");
-		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
-		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
-		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
-		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
 		leg->Draw();
 	}
 
@@ -1886,6 +1906,7 @@ void Draw_dNdy_MB(){
 
 	//return;
 
+	/*
 	c1->cd(4);
 	SetPadStyle();
 	gPad->SetTopMargin(0.03);
@@ -1911,11 +1932,12 @@ void Draw_dNdy_MB(){
 		leg->AddEntry(gR_HeAu[0],"0%-100% ^{3}He+Au","p");
 		leg->Draw();
 	}
+	*/
 
 	double global_sys_y_HeAu = sqrt(0.1*0.1 + Ncoll_HeAu_sys*Ncoll_HeAu_sys + BiasF_HeAu_sys*BiasF_HeAu_sys);
 	TBox *sysbox_y_HeAu = new TBox(2.8,1-global_sys_y_HeAu,3.0,1+global_sys_y_HeAu);
 	sysbox_y_HeAu->SetFillStyle(1001);
-	sysbox_y_HeAu->SetFillColorAlpha(kMagenta+1,0.5);
+	sysbox_y_HeAu->SetFillColorAlpha(1,0.3);
 	sysbox_y_HeAu->Draw();
 
 	TCanvas *c1_4 = new TCanvas("c1_4","c1_4",1.4*400,400);
@@ -1976,23 +1998,24 @@ void Draw_dNdy_MB(){
 	}
 
 	{
-		TLegend *leg = new TLegend(0.15,0.17,0.45,0.38);
+		TLegend *leg = new TLegend(0.15,0.15,0.45,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
-		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO, Vogt","f");
-		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16, Shao et al","f");
-		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15, Shao et al","f");
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
 		leg->Draw();
 	}
 
 	{
-		TLegend *leg = new TLegend(0.55,0.17,0.95,0.40);
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
 		leg->SetFillStyle(0);
 		leg->SetTextSize(20);
 		le = leg->AddEntry("","","");
-		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16(Shao)+Abs","f");
-		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16(Vogt)+Abs","f");
-		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15+Abs","f");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
 		leg->Draw();
 	}
 
@@ -2003,9 +2026,489 @@ void Draw_dNdy_MB(){
 		tex->Draw();
 	}
 
+	TCanvas *c100 = new TCanvas("c100","c100",1.3*3*400,400);
+
+	TPad *pad = new TPad("c100_pad0","c100_pad0",0.0,0.0,0.35,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetTopMargin(0.03);
+	gPad->SetRightMargin(0.0);
+	gPad->SetLeftMargin(0.13);
+	gPad->SetBottomMargin(0.13);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,0,3.2,1.6);
+	SetHistoStyle("y","R_{AB}","",28,24);
+	htmp->GetYaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->CenterTitle();
+
+	line_rap->Draw();
+	{
+		double global_sys_y_pAl = sqrt(0.1*0.1 + Ncoll_sys*Ncoll_sys + BiasF_sys*BiasF_sys);
+		TBox *sysbox_y_pAl = new TBox(3.0,1-global_sys_y_pAl,3.2,1+global_sys_y_pAl);
+		sysbox_y_pAl->SetFillStyle(1000);
+		sysbox_y_pAl->SetFillColorAlpha(1,0.3);
+		sysbox_y_pAl->Draw();
+	}
+
+	if(draw_original)
+	  {
+	    gth_epps_pAl[0]->Draw("3");
+	    gth_ncteq_pAl[0]->Draw("3");
+			gth1_epps_pAl[0]->Draw("3");
+	  }
+
+	gth_epps_pAl[1]->Draw("3");
+	gth_ncteq_pAl[1]->Draw("3");
+	gth1_epps_pAl[1]->Draw("3");
+
+	if(draw_breakup)
+	  gbu_pAl->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_pAl_new_vogt->Draw("3");
+	    gbu_epps_pAl_new->Draw("3");
+	    gbu_ncteq_pAl_new->Draw("3");
+	  }
+
+
+	gR_sys[0]->Draw("2");
+	gR_sys[1]->Draw("2");
+	gR[0]->Draw("p");
+	gR[1]->Draw("p");
+
+	{
+		TLegend *leg = new TLegend(0.55,0.74,0.9,0.95);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		le = leg->AddEntry("","Inclusive J/#psi","");
+		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.15,0.87,0.45,0.95);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry(gR[0],"0%-100% p+Al","p");
+		le->SetTextSize(24);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.15,0.15,0.45,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
+		leg->Draw();
+	}
+
+	{
+		TLatex *tex = new TLatex(2.5, 1.47, "(a)");
+		tex->SetTextFont(43);
+		tex->SetTextSize(24);
+		tex->Draw();
+	}
+
+	c100->cd();
+	pad = new TPad("c100_pad1","c100_pad1",0.35,0.0,0.67,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetTopMargin(0.03);
+	gPad->SetRightMargin(0.00);
+	gPad->SetLeftMargin(0.0);
+	gPad->SetBottomMargin(0.13);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,0,3.2,1.6);
+	SetHistoStyle("y","R_{AB}","",28,24);
+	htmp->GetYaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->CenterTitle();
+
+	line_rap->Draw();
+	{
+		double global_sys_y_pAu = sqrt(0.1*0.1 + Ncoll_pAu_sys*Ncoll_pAu_sys + BiasF_pAu_sys*BiasF_pAu_sys);
+		TBox *sysbox_y_pAu = new TBox(3.0,1-global_sys_y_pAu,3.2,1+global_sys_y_pAu);
+		sysbox_y_pAu->SetFillStyle(1000);
+		sysbox_y_pAu->SetFillColorAlpha(1,0.3);
+		sysbox_y_pAu->Draw();
+	}
+
+	if(draw_original)
+	  {
+	    gth_epps_pAu[0]->Draw("3");
+	    gth_ncteq_pAu[0]->Draw("3");
+			gth1_epps_pAu[0]->Draw("3");
+	  }
+
+	gth_epps_pAu[1]->Draw("3");
+	gth_ncteq_pAu[1]->Draw("3");
+	gth1_epps_pAu[1]->Draw("3");
+
+	if(draw_breakup)
+	  gbu_pAu->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_pAu_new_vogt->Draw("3");
+	    gbu_epps_pAu_new->Draw("3");
+	    gbu_ncteq_pAu_new->Draw("3");
+	  }
+	
+	gR_pAu_sys[0]->Draw("2");
+	gR_pAu_sys[1]->Draw("2");
+	gR_pAu[0]->Draw("p");
+	gR_pAu[1]->Draw("p");
+
+	{
+		TLegend *leg = new TLegend(0.45,0.74,0.9,0.95);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		le = leg->AddEntry("","Inclusive J/#psi","");
+		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.05,0.87,0.45,0.95);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry(gR_pAu[0],"0%-100% p+Au","p");
+		le->SetTextSize(24);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.05,0.15,0.45,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
+		leg->Draw();
+	}
+
+	{
+		TLatex *tex = new TLatex(2.5, 1.47, "(b)");
+		tex->SetTextFont(43);
+		tex->SetTextSize(24);
+		tex->Draw();
+	}
+
+	c100->cd();
+	pad = new TPad("c100_pad2","c100_pad2",0.67,0.0,0.99,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetTopMargin(0.03);
+	gPad->SetRightMargin(0.00);
+	gPad->SetLeftMargin(0.0);
+	gPad->SetBottomMargin(0.13);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,0,3.2,1.6);
+	SetHistoStyle("y","R_{AB}","",28,24);
+	htmp->GetYaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->CenterTitle();
+
+	line_rap->Draw();
+	{
+		double global_sys_y_HeAu = sqrt(0.1*0.1 + Ncoll_HeAu_sys*Ncoll_HeAu_sys + BiasF_HeAu_sys*BiasF_HeAu_sys);
+		TBox *sysbox_y_HeAu = new TBox(3.0,1-global_sys_y_HeAu,3.2,1+global_sys_y_HeAu);
+		sysbox_y_HeAu->SetFillStyle(1001);
+		sysbox_y_HeAu->SetFillColorAlpha(1,0.3);
+		sysbox_y_HeAu->Draw();
+	}
+
+	gth_epps_HeAu[0]->Draw("3");
+	gth_epps_HeAu[1]->Draw("3");
+
+	gth_ncteq_HeAu[0]->Draw("3");
+	gth_ncteq_HeAu[1]->Draw("3");
+
+	gth1_epps_HeAu[0]->Draw("3");
+	gth1_epps_HeAu[1]->Draw("3");
+
+	if(draw_breakup)
+	  gbu_HeAu->Draw("l");
+
+	if(draw_breakup_modified)
+	  {
+	    gbu_HeAu_new_vogt->Draw("3");
+	    gbu_epps_HeAu_new->Draw("3");
+	    gbu_ncteq_HeAu_new->Draw("3");
+	  }
+
+	gR_HeAu_sys[0]->Draw("2");
+	gR_HeAu_sys[1]->Draw("2");
+	gR_HeAu[0]->Draw("p");
+	gR_HeAu[1]->Draw("p");
+
+
+	{
+		TLegend *leg = new TLegend(0.45,0.74,0.9,0.95);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(24);
+		le = leg->AddEntry("","Inclusive J/#psi","");
+		le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+		le = leg->AddEntry("","PHENIX","");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.05,0.87,0.45,0.95);
+		leg->SetFillStyle(0);
+		le = leg->AddEntry(gR_HeAu[0],"0%-100% ^{3}He+Au","p");
+		le->SetTextSize(24);
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.05,0.15,0.45,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gth1_epps_pAl[0],"EPPS16 LO (Vogt)","f");
+		le = leg->AddEntry(gth_epps_pAl[0],"EPPS16 (Shao)","f");
+		le = leg->AddEntry(gth_ncteq_pAl[0],"nCTEQ15 (Shao)","f");
+		leg->Draw();
+	}
+
+	{
+		TLegend *leg = new TLegend(0.5,0.15,0.95,0.36);
+		leg->SetFillStyle(0);
+		leg->SetTextSize(20);
+		le = leg->AddEntry("","","");
+		le = leg->AddEntry(gbu_pAl_new_vogt,"EPPS16 (Vogt) + Abs","f");
+		le = leg->AddEntry(gbu_epps_pAl_new,"EPPS16 (Shao) + Abs","f");
+		le = leg->AddEntry(gbu_ncteq_pAl_new,"nCTEQ15 + Abs","f");
+		leg->Draw();
+	}
+
+	{
+		TLatex *tex = new TLatex(2.5, 1.45, "(c)");
+		tex->SetTextFont(43);
+		tex->SetTextSize(24);
+		tex->Draw();
+	}
+
+	TCanvas *c2002 = new TCanvas("c2002","c2002",1.3*2*400,750);
+	pad = new TPad("c2002_p00","c2002_p00",0,0.52,0.53,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetRightMargin(0.0);
+	gPad->SetLeftMargin(0.14);
+	gPad->SetBottomMargin(0.0);
+	gPad->SetTopMargin(0.1);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,-0.1e-6,3.2,1.8e-6);
+	SetHistoStyle("y","B_{ll}dN/dy","",26,22);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->SetTitleOffset(1.0);
+
+	{
+		gy_pp15_sys[0]->Draw("2");
+		gy_pp15_sys[1]->Draw("2");
+		gy_pp15[0]->Draw("p");
+		gy_pp15[1]->Draw("p");
+
+		{
+			TLegend *leg = new TLegend(0.6,0.64,0.9,0.85);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","Inclusive J/#psi","h");
+			entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			entry = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.15,0.71,0.45,0.85);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","","");
+			entry = leg->AddEntry(gy_pp15[0],"p+p","p");
+			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 1.1e-6, "(a)");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+	}
+
+	c2002->cd();
+	pad = new TPad("c2002_p01","c2002_p01",0.53,0.52,1.0,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetLeftMargin(0.0);
+	gPad->SetBottomMargin(0.0);
+	gPad->SetTopMargin(0.1);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,-0.1e-6,3.2,1.8e-6);
+	SetHistoStyle("y","B_{ll}dN/dy","",26,22);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->SetTitleOffset(1.0);
+
+	{
+		gy_sys[0]->Draw("2");
+		gy_sys[1]->Draw("2");
+		gy[0]->Draw("p");
+		gy[1]->Draw("p");
+		{
+			TLegend *leg = new TLegend(0.5,0.64,0.8,0.85);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","Inclusive J/#psi","h");
+			entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			entry = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.02,0.71,0.35,0.85);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","0%-100%","");
+			entry = leg->AddEntry(gy[0],"p+Al/#LTN_{coll}#GT","p");
+			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 1.1e-6, "(b)");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+	}
+
+	c2002->cd();
+	pad = new TPad("c2002_p02","c2002_p02",0,0.0,0.53,0.52);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetRightMargin(0.0);
+	gPad->SetLeftMargin(0.14);
+	gPad->SetBottomMargin(0.14);
+	gPad->SetTopMargin(0.0);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,-0.0e-6,3.2,1.9e-6);
+	SetHistoStyle("y","B_{ll}dN/dy","",26,22);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->CenterTitle();
+
+	{
+		gy_pAu_sys[0]->Draw("2");
+		gy_pAu_sys[1]->Draw("2");
+		gy_pAu[0]->Draw("p");
+		gy_pAu[1]->Draw("p");
+
+		{
+			TLegend *leg = new TLegend(0.6,0.69,0.9,0.90);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","Inclusive J/#psi","h");
+			entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			entry = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.15,0.76,0.45,0.90);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","0%-100%","");
+			entry = leg->AddEntry(gy_pAu[0],"p+Au/#LTN_{coll}#GT","p");
+			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 1.1e-6, "(c)");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+	}
+
+	c2002->cd();
+	pad = new TPad("c2002_p03","c2002_p03",0.53,0.0,1.0,0.52);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetLeftMargin(0.0);
+	gPad->SetBottomMargin(0.14);
+	gPad->SetTopMargin(0.0);
+	htmp = (TH1F*)gPad->DrawFrame(-3.2,-0.0e-6,3.2,1.9e-6);
+	SetHistoStyle("y","B_{ll}dN/dy","",26,22);
+	htmp->GetYaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->SetTitleOffset(1.7);
+	htmp->GetXaxis()->CenterTitle();
+
+	{
+		gy_HeAu_sys[0]->Draw("2");
+		gy_HeAu_sys[1]->Draw("2");
+		gy_HeAu[0]->Draw("p");
+		gy_HeAu[1]->Draw("p");
+
+		{
+			TLegend *leg = new TLegend(0.5,0.69,0.8,0.90);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","Inclusive J/#psi","h");
+			entry = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			entry = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.02,0.76,0.35,0.90);
+			leg->SetFillStyle(0);
+			leg->SetTextSize(24);
+			entry = leg->AddEntry("","0%-100%","");
+			entry = leg->AddEntry(gy_HeAu[0],"^{3}He+Au/#LTN_{coll}#GT","p");
+			leg->Draw();
+		}
+
+		{
+			TLatex *tex = new TLatex(2.5, 1.1e-6, "(d)");
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+	}
+
+
 	if ( bSAVE ){
-		c1->cd();
-		c1->SaveAs("pdf/fig_RAB_y_MB.pdf");
+		//c1->cd();
+		//c1->SaveAs("pdf/fig_RAB_y_MB.pdf");
 
 		c1_1->cd();
 		c1_1->SaveAs("pdf/fig_RAB_y_MB_pAl.pdf");
@@ -2019,8 +2522,8 @@ void Draw_dNdy_MB(){
 		c1_4->cd();
 		c1_4->SaveAs("pdf/fig_RAB_y_MB_HeAu.pdf");
 
-		c10->cd();
-		c10->SaveAs("pdf/fig_dNdy_MB.pdf");
+		//c10->cd();
+		//c10->SaveAs("pdf/fig_dNdy_MB.pdf");
 
 		c10_1->cd();
 		c10_1->SaveAs("pdf/fig_dNdy_MB_pp.pdf");
@@ -2033,6 +2536,12 @@ void Draw_dNdy_MB(){
 
 		c10_4->cd();
 		c10_4->SaveAs("pdf/fig_dNdy_MB_HeAu.pdf");
+
+		c100->cd();
+		c100->SaveAs("pdf/fig_RAB_y_MB_combined.pdf");
+
+		c2002->cd();
+		c2002->SaveAs("pdf/fig_dNdy_MB_combined.pdf");
 	}
 
 	return;
