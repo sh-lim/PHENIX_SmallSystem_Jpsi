@@ -2,7 +2,7 @@
 
 void Draw_RpAu_Ncoll_xiaojian(){
 
-	const bool bSAVE = true;
+	const bool bSAVE = false;
 
 	SetStyle();
 
@@ -38,10 +38,10 @@ void Draw_RpAu_Ncoll_xiaojian(){
 	gth_CNM_pAu[1] = (TGraphErrors*)infile_th0_pAu->Get("RpAu_CNM_fwd");
 
 	for (int iarm=0; iarm<narm; iarm++){
-	  gth_transport_pAu[0]->SetFillColorAlpha(kGreen+2,0.3);
+	  gth_transport_pAu[0]->SetFillColorAlpha(kGreen+2,0.5);
 	  gth_transport_pAu[0]->SetFillStyle(3344);
 	  gth_transport_pAu[0]->SetLineColor(0);
-	  gth_transport_pAu[1]->SetFillColorAlpha(kGreen+2,0.3);
+	  gth_transport_pAu[1]->SetFillColorAlpha(kGreen+2,0.5);
 	  gth_transport_pAu[1]->SetFillStyle(3344);
 	  gth_transport_pAu[1]->SetLineColor(0);
 	   
@@ -122,11 +122,161 @@ void Draw_RpAu_Ncoll_xiaojian(){
 
 	}
 
+	TCanvas *c01 = new TCanvas("c01","c01",1.3*2*400,400);
+	TPad *pad = new TPad("c01_p00","c01_p00",0,0,0.53,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetRightMargin(0.0);
+	gPad->SetLeftMargin(0.15);
+	gPad->SetBottomMargin(0.17);
+	htmp = (TH1F*)gPad->DrawFrame(0,0,11,2.0);
+	SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",28,24);
+	htmp->GetYaxis()->SetTitleOffset(0.8);
+	htmp->GetXaxis()->SetTitleOffset(1.0);
+
+	{
+		int iarm = 0;
+		{
+			TLegend *leg = new TLegend(0.10,0.70,0.4,0.93);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			le = leg->AddEntry("","Inclusive J/#psi","");
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","");
+			le = leg->AddEntry("","PHENIX","");
+			leg->Draw();
+
+			TLine *line = new TLine(0, 1, 11, 1);
+			line->SetLineStyle(2);
+			line->Draw();
+
+			TBox *box = new TBox(11*0.97,1-0.101,11,1+0.101);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(1,0.5);
+			box->Draw();
+		}
+		{
+			TLegend *leg = new TLegend(0.6,0.7,0.85,0.93);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			leg->AddEntry("","","");
+			if ( iarm==0 ){
+				le = leg->AddEntry("","-2.2<y<-1.2","h");
+			}else{
+				le = leg->AddEntry("","1.2<y<2.2","h");
+			}
+			leg->AddEntry(hRAB_Ncoll_pAu[iarm],"p+Au","P");
+			leg->Draw();
+		}
+
+		hRAB_Ncoll_pAu_sys[iarm]->Draw("2");
+		hRAB_Ncoll_pAu[iarm]->Draw("P");
+
+		gth_transport_pAu[iarm]->Draw("3");
+		gth_CNM_pAu[iarm]->Draw("L");
+		
+		{
+			TLatex *tex = new TLatex(10,1.82,Form("(%c)",97+iarm));
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.15,0.2,0.7,0.43);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(20);
+			leg->AddEntry("","","");
+			leg->AddEntry(gth_transport_pAu[iarm],"EPS09NLO+Transport (Du & Rapp)","F");
+			leg->AddEntry(gth_CNM_pAu[iarm],"EPS09NLO only (Du & Rapp)","L");
+			leg->Draw();
+		}
+	}
+
+	c01->cd();
+	pad = new TPad("c01_p01","c01_p01",0.53,0,1.0,1.0);
+	pad->Draw();
+	pad->cd();
+	SetPadStyle();
+	gPad->SetLeftMargin(0.0);
+	gPad->SetBottomMargin(0.17);
+	htmp = (TH1F*)gPad->DrawFrame(0.1,0,11,2.0);
+	SetHistoStyle("#LTN_{coll}#GT","R_{AB}","",28,24);
+	htmp->GetYaxis()->SetTitleOffset(0.7);
+	htmp->GetXaxis()->SetTitleOffset(1.0);
+
+	{
+		int iarm = 1;
+		{
+			TLegend *leg = new TLegend(0.02,0.70,0.3,0.93);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			le = leg->AddEntry("","Inclusive J/#psi","h");
+			le = leg->AddEntry("","#sqrt{s_{NN}}=200 GeV","h");
+			le = leg->AddEntry("","PHENIX","h");
+			leg->Draw();
+
+			TLine *line = new TLine(0, 1, 11, 1);
+			line->SetLineStyle(2);
+			line->Draw();
+
+			TBox *box = new TBox(11*0.97,1-0.101,11,1+0.101);
+			box->SetFillStyle(1000);
+			box->SetFillColorAlpha(1,0.5);
+			box->Draw();
+		}
+		{
+			TLegend *leg = new TLegend(0.6,0.7,0.85,0.93);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(24);
+			leg->AddEntry("","","");
+			if ( iarm==0 ){
+				le = leg->AddEntry("","-2.2<y<-1.2","h");
+			}else{
+				le = leg->AddEntry("","1.2<y<2.2","h");
+			}
+			leg->AddEntry(hRAB_Ncoll_pAu[iarm],"p+Au","P");
+			leg->Draw();
+		}
+
+		hRAB_Ncoll_pAu_sys[iarm]->Draw("2");
+		hRAB_Ncoll_pAu[iarm]->Draw("P");
+
+		gth_transport_pAu[iarm]->Draw("3");
+		gth_CNM_pAu[iarm]->Draw("L");
+		
+		{
+			TLatex *tex = new TLatex(10,1.82,Form("(%c)",97+iarm));
+			tex->SetTextFont(43);
+			tex->SetTextSize(24);
+			tex->Draw();
+		}
+
+		{
+			TLegend *leg = new TLegend(0.02,0.2,0.6,0.43);
+			leg->SetFillStyle(0);
+			leg->SetBorderSize(0);
+			leg->SetTextSize(20);
+			leg->AddEntry("","","");
+			leg->AddEntry(gth_transport_pAu[iarm],"EPS09NLO+Transport (Du & Rapp)","F");
+			leg->AddEntry(gth_CNM_pAu[iarm],"EPS09NLO only (Du & Rapp)","L");
+			leg->Draw();
+		}
+	}
+
 	if ( bSAVE ){
 		for (int iarm=0; iarm<narm; iarm++){
-			c13[iarm]->cd();
-			c13[iarm]->SaveAs(Form("pdf/fig_RAB_Ncoll_arm%d.pdf",iarm));
+			//c13[iarm]->cd();
+			//c13[iarm]->SaveAs(Form("pdf/fig_RAB_Ncoll_arm%d.pdf",iarm));
 		}//iarm
+
+		c01->cd();
+		c01->SaveAs(Form("pdf/fig_RAB_pAu_Ncoll_combined.pdf"));
 	}
 
 
